@@ -22,5 +22,6 @@ export function handleAxiosError(error: unknown): never {
     const message = error.response?.data?.message || "Error en el servidor";
     throw new ApiError(message, status);
   }
+
   throw error;
 }

@@ -25,7 +25,7 @@ export function StatsGrid({ isLoading, stats }: StatsGridProps) {
   return (
     <>
       <StatCard
-        title="Análisis hoy"
+        title="Análisis"
         value={stats.analysisTotal}
         subtitle="Analisis"
         icon={
