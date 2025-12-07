@@ -6,8 +6,8 @@ interface WelcomeHeaderProps {
 
 export function WelcomeHeader({ doctorName }: WelcomeHeaderProps) {
   return (
-    <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-4 md:p-8 animate-slide-down hover:shadow-xl transition-all duration-500">
-      <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-2 md:mb-3 animate-text-shimmer bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent bg-300% animate-gradient">
+    <div className="bg-linear-to-r from-primary/10 to-secondary/10 rounded-2xl p-4 md:p-8 animate-slide-down hover:shadow-xl transition-all duration-500">
+      <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-2 md:mb-3 animate-text-shimmer bg-linear-to-r from-primary via-secondary to-accent bg-clip-text bg-300% animate-gradient">
         Bienvenido, Dr. {doctorName}
       </h2>
       <p className="text-base md:text-xl text-muted-foreground animate-slide-up-delay">

@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ActivityItem, ActivitySkeleton } from ".";
-import type { Activity } from "../types";
 import { Activity as Activity_icon } from "lucide-react";
+import type { Activity } from "../types";
 
 interface RecentActivityProps {
   isLoading: boolean;
