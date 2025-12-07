@@ -3,6 +3,7 @@ import { AuhtLayout, ProtectedLayout } from "./layouts";
 import { LoginForm } from "./features/auth/components/LoginForm";
 import HomePage from "./features/home-dashboard/pages/HomePage";
 import AdministrationPage from "./features/administration/pages/AdministrationPage";
+import MedicDashboardPage from "./features/medic-dashboard/pages/MedicDashboardPage";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: "admin",
         element: <AdministrationPage />,
+      },
+      {
+        path: "medical-dashboard",
+        element: <MedicDashboardPage />,
       },
     ],
   },
