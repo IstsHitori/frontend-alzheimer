@@ -12,5 +12,4 @@ export const accuracyMetricsSchema = z.object({
 
 export const analysisStatsSchema = z.object({
   analysisByGender: analysisByGenderSchema,
-  accuracyMetrics: accuracyMetricsSchema.optional(),
 });

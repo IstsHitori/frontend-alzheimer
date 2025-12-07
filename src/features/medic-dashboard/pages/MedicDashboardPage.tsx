@@ -14,11 +14,9 @@ import useGetPatients from "@/features/patient/hooks/useGetPatients";
 export default function MedicDashboardPage() {
   const [activeTab, setActiveTab] = useState("overview");
 
-  // Data fetching hooks
   const { medicalQuery, medicalStats, setMedicalStats } = useMedicalDashboard();
   const { patientsQuery, patients, setPatients } = useGetPatients();
 
-  // Patient selection and form management (SRP)
   const {
     selectedPatient,
     editingPatient,
@@ -28,7 +26,6 @@ export default function MedicDashboardPage() {
     handleAddPatient,
   } = usePatientSelection();
 
-  // PDF generation logic (SRP)
   const {
     isGeneratingMonthly,
     isGeneratingComparative,
@@ -36,21 +33,18 @@ export default function MedicDashboardPage() {
     handleGenerateComparative,
   } = usePDFGenerators({ stats: medicalStats });
 
-  // Sync medical stats from query (Dependency Inversion)
   useEffect(() => {
     if (medicalQuery.isSuccess && medicalQuery.data) {
       setMedicalStats(medicalQuery.data);
     }
   }, [medicalQuery.isSuccess, medicalQuery.data, setMedicalStats]);
 
-  // Sync patients from query (Dependency Inversion)
   useEffect(() => {
     if (patientsQuery.isSuccess && patientsQuery.data) {
       setPatients(patientsQuery.data);
     }
   }, [patientsQuery.isSuccess, patientsQuery.data, setPatients]);
 
-  // Loading state
   if (medicalQuery.isLoading || patientsQuery.isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -62,7 +56,6 @@ export default function MedicDashboardPage() {
     );
   }
 
-  // Error state
   if (medicalQuery.isError || patientsQuery.isError) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -76,24 +69,19 @@ export default function MedicDashboardPage() {
     );
   }
 
-  // Show new patient form (Open/Closed Principle)
   if (showNewPatientForm) {
     //ShowPatientForm
   }
 
-  // Show edit patient form (Open/Closed Principle)
   if (editingPatient) {
     //Show
   }
 
-  // Show patient details (Open/Closed Principle)
   if (selectedPatient) {
     //Show
   }
 
-  // Main dashboard view (Interface Segregation Principle)
-  // Show loading state if stats are not yet loaded
-  if (!medicalStats && medicalQuery.isLoading) {
+  if (!medicalStats) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">

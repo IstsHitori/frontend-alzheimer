@@ -11,12 +11,12 @@ import { StatsCard } from "./StatsCard";
 import type { MedicDashboard } from "../types";
 
 interface OverviewTabProps {
-  stats: MedicDashboard | null;
+  stats: MedicDashboard;
 }
 
 export function OverviewTab({ stats }: OverviewTabProps) {
   // Guard clause for undefined or null stats
-  if (!stats || !stats.resume) {
+  if (!stats || !stats.resumeStats) {
     return (
       <div className="flex items-center justify-center p-8">
         <p className="text-muted-foreground">Cargando estadísticas...</p>
@@ -24,10 +24,10 @@ export function OverviewTab({ stats }: OverviewTabProps) {
     );
   }
 
-  const { resume } = stats;
-  const totalAlzheimer = resume.alzheimerCases?.cases || 0;
-  const healthyPercentage = resume.healthyCases?.percentaje || 0;
-  const alzheimerPercentage = resume.alzheimerCases?.percentaje || 0;
+  const { resumeStats } = stats;
+  const totalAlzheimer = resumeStats.alzheimerCases?.cases || 0;
+  const healthyPercentage = resumeStats.healthyCases?.percentaje || 0;
+  const alzheimerPercentage = resumeStats.alzheimerCases?.percentaje || 0;
 
   return (
     <div className="space-y-4">
@@ -35,13 +35,12 @@ export function OverviewTab({ stats }: OverviewTabProps) {
       <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard
           title="Total Análisis"
-          value={resume.totalAnalysis || 0}
-          description="+12% desde el mes pasado"
+          value={resumeStats.totalAnalysis || 0}
           icon={Brain}
         />
         <StatsCard
           title="Casos Sanos"
-          value={resume.healthyCases?.cases || 0}
+          value={resumeStats.healthyCases?.cases || 0}
           description={`${healthyPercentage.toFixed(1)}% del total`}
           icon={CheckCircle}
           iconClassName="text-green-600"
@@ -57,7 +56,7 @@ export function OverviewTab({ stats }: OverviewTabProps) {
         />
         <StatsCard
           title="Edad Promedio"
-          value={`${Math.round(resume.averageAge || 0)} años`}
+          value={`${Math.round(resumeStats.averageAge || 0)} años`}
           icon={Users}
         />
       </div>
@@ -77,7 +76,7 @@ export function OverviewTab({ stats }: OverviewTabProps) {
               <div className="flex items-center justify-between">
                 <span className="text-sm">Sanos</span>
                 <span className="text-sm font-medium">
-                  {resume.distributionDiagnostic?.healthy || 0}
+                  {resumeStats.distributionDiagnostic?.healthy || 0}
                 </span>
               </div>
               <Progress value={healthyPercentage} className="h-2" />
@@ -85,14 +84,14 @@ export function OverviewTab({ stats }: OverviewTabProps) {
               <div className="flex items-center justify-between">
                 <span className="text-sm">Alzheimer Leve</span>
                 <span className="text-sm font-medium">
-                  {resume.distributionDiagnostic?.lowAlzheimer || 0}
+                  {resumeStats.distributionDiagnostic?.lowAlzheimer || 0}
                 </span>
               </div>
               <Progress
                 value={
-                  resume.totalAnalysis > 0
-                    ? ((resume.distributionDiagnostic?.lowAlzheimer || 0) /
-                        resume.totalAnalysis) *
+                  resumeStats.totalAnalysis > 0
+                    ? ((resumeStats.distributionDiagnostic?.lowAlzheimer || 0) /
+                        resumeStats.totalAnalysis) *
                       100
                     : 0
                 }
@@ -102,14 +101,15 @@ export function OverviewTab({ stats }: OverviewTabProps) {
               <div className="flex items-center justify-between">
                 <span className="text-sm">Alzheimer Moderado</span>
                 <span className="text-sm font-medium">
-                  {resume.distributionDiagnostic?.moderateAlzheimer || 0}
+                  {resumeStats.distributionDiagnostic?.moderateAlzheimer || 0}
                 </span>
               </div>
               <Progress
                 value={
-                  resume.totalAnalysis > 0
-                    ? ((resume.distributionDiagnostic?.moderateAlzheimer || 0) /
-                        resume.totalAnalysis) *
+                  resumeStats.totalAnalysis > 0
+                    ? ((resumeStats.distributionDiagnostic?.moderateAlzheimer ||
+                        0) /
+                        resumeStats.totalAnalysis) *
                       100
                     : 0
                 }
@@ -119,14 +119,15 @@ export function OverviewTab({ stats }: OverviewTabProps) {
               <div className="flex items-center justify-between">
                 <span className="text-sm">Alzheimer Severo</span>
                 <span className="text-sm font-medium">
-                  {resume.distributionDiagnostic?.severeAlzheimer || 0}
+                  {resumeStats.distributionDiagnostic?.severeAlzheimer || 0}
                 </span>
               </div>
               <Progress
                 value={
-                  resume.totalAnalysis > 0
-                    ? ((resume.distributionDiagnostic?.severeAlzheimer || 0) /
-                        resume.totalAnalysis) *
+                  resumeStats.totalAnalysis > 0
+                    ? ((resumeStats.distributionDiagnostic?.severeAlzheimer ||
+                        0) /
+                        resumeStats.totalAnalysis) *
                       100
                     : 0
                 }
