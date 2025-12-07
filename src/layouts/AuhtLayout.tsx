@@ -1,4 +1,8 @@
-
+import { Outlet } from "react-router-dom";
 export function AuhtLayout() {
-  return <div>AuhtLayout</div>;
+  return (
+    <div>
+      <Outlet />
+    </div>
+  );
 }
