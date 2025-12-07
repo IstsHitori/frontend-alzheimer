@@ -11,7 +11,7 @@ interface AuthActions {
   setProfile: (profile: Profile) => void;
 }
 
-export const useAuthStore = create<AuthStore & AuthActions>((set, get) => ({
+export const useAuthStore = create<AuthStore & AuthActions>((set) => ({
   profile: {} as Profile,
   isAuthenticated: !!localStorage.getItem("authToken"),
   logout: () => {

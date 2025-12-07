@@ -119,7 +119,7 @@ export function NavigationMenu() {
           </div>
 
           {!isCollapsed && (
-            <Card className="mb-4 bg-gradient-to-r from-primary/5 to-secondary/5">
+            <Card className="mb-4 bg-linear-to-r from-primary/5 to-secondary/5">
               <CardContent className="p-3">
                 <div className="flex items-center gap-2">
                   <div className="p-1.5 bg-primary/10 rounded-full">

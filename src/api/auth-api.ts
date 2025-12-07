@@ -26,13 +26,10 @@ class AuthApi {
 
   async getProfile(): Promise<Profile> {
     try {
-      const response = await fetchAndValidateSchema<Profile>(
+      return await fetchAndValidateSchema<Profile>(
         () => api.get("/auth/profile"),
         profileSchema
       );
-
-      console.log(response);
-      return response;
     } catch (error) {
       handleAxiosError(error);
     }
