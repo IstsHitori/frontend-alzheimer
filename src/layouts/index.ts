@@ -1,2 +1,2 @@
 export * from './AuhtLayout';
-export * from './RootLayout';
+export * from './ProtectedLayout';

@@ -1,12 +1,14 @@
-import { isAxiosError } from "axios";
 import type {
   LoginPayload,
   LoginResponse,
+  Profile,
 } from "@/features/auth/types/auth.types";
-import { ApiError } from "@/shared/errors";
-import { fetchAndValidateSchema } from "@/shared/helpers";
+import { fetchAndValidateSchema, handleAxiosError } from "@/shared/helpers";
 import { api } from "./base-http";
-import { loginResponseSchema } from "@/features/auth/schemas/auth.schema";
+import {
+  loginResponseSchema,
+  profileSchema,
+} from "@/features/auth/schemas/auth.schema";
 
 class AuthApi {
   async login(payload: LoginPayload): Promise<string> {
@@ -18,12 +20,21 @@ class AuthApi {
 
       return response.token;
     } catch (error) {
-      if (isAxiosError(error)) {
-        const status = error.response?.status || 500;
-        const message = error.response?.data?.message || "Error en el servidor";
-        throw new ApiError(message, status);
-      }
-      throw error;
+      handleAxiosError(error);
+    }
+  }
+
+  async getProfile(): Promise<Profile> {
+    try {
+      const response = await fetchAndValidateSchema<Profile>(
+        () => api.get("/auth/profile"),
+        profileSchema
+      );
+
+      console.log(response);
+      return response;
+    } catch (error) {
+      handleAxiosError(error);
     }
   }
 }

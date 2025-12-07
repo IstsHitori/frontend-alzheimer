@@ -8,6 +8,7 @@ interface AuthStore {
 
 interface AuthActions {
   logout: () => void;
+  setProfile: (profile: Profile) => void;
 }
 
 export const useAuthStore = create<AuthStore & AuthActions>((set, get) => ({
@@ -20,4 +21,5 @@ export const useAuthStore = create<AuthStore & AuthActions>((set, get) => ({
       isAuthenticated: false,
     });
   },
+  setProfile: (profile) => set({ profile }),
 }));
