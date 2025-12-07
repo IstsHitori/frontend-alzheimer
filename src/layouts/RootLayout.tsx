@@ -1,6 +1,8 @@
+import { useAuth } from "@/features/auth/hooks";
+import { Navigate } from "react-router-dom";
 
 export function RootLayout() {
-  return (
-    <div>RootLayout</div>
-  )
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) return <Navigate to={"/"} replace={true} />;
+  return <div>RootLayout</div>;
 }

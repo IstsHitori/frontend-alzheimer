@@ -34,7 +34,7 @@ export const useLoginForm = () => {
     },
     onSuccess: (data) => {
       localStorage.setItem("authToken", data);
-      navigate("/app/home");
+      navigate("/app/home", { replace: true });
     },
   });
   return { register, handleSubmit, mutate, isPending, errors };
