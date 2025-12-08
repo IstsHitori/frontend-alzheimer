@@ -8,16 +8,16 @@ import {
 
 export function useCreatePatientForm() {
   const defaultValues = {
-    identification: 0,
-    telephone: 0,
+    identification: "",
+    telephone: "",
     fullName: "",
     birthDate: "",
     gender: PATIENT_GENDER.MALE,
     educationLevel: EDUCATION_LEVEL.PRIMARY,
-    weight: 0,
-    size: 0,
-    tension: 0,
-    eps: 0,
+    weight: "",
+    size: "",
+    tension: "",
+    eps: "",
     conditions: [],
     currentMedications: [],
     familyBackground: [],
