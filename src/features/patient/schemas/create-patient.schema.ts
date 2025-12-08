@@ -91,8 +91,9 @@ export const createPatientSchema = z.object({
   ),
   weight: z
     .string()
-    .transform((val) => parseFloat(val))
+    .transform((val) => parseInt(val, 10))
     .refine((val) => !isNaN(val), "El peso debe ser un número válido")
+    .refine((val) => Number.isInteger(val), "El peso debe ser un número entero")
     .refine((val) => val > 0, "El peso debe ser positivo"),
   size: z
     .string()

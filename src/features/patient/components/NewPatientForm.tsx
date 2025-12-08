@@ -289,7 +289,6 @@ export function NewPatientForm({
                     {...field}
                     id="weight"
                     type="number"
-                    step="0.01"
                     placeholder="70"
                   />
                   {fieldState.invalid && (
