@@ -26,7 +26,7 @@ export function useUpdatePatientForm(patient: Patient) {
     currentMedications: patient.currentMedications.map((m) => ({
       id: m.id,
       product: m.product,
-      expedient: m.id.toString(),
+      expedient: m.expedient,
       headline: "",
       healthRegistry: "",
       commercialDescription: "",

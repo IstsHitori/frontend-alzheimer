@@ -54,6 +54,7 @@ export const patientSchema = z.object({
     z.object({
       id: z.number(),
       product: z.string(),
+      expedient: z.string(),
       laboratory: z.string(),
       pharmaceuticalForm: z.string(),
       administrationRoute: z.string(),

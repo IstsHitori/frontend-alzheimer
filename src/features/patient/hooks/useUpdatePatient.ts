@@ -8,7 +8,6 @@ export default function useUpdatePatient() {
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: (patient: UpdatePatient) => {
-      console.log(patient);
       return patientApi.updatePatient(patient);
     },
     onSuccess: (message: string, { id }) => {

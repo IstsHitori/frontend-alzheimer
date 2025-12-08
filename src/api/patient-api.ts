@@ -33,10 +33,10 @@ class PatientApi {
     }
   }
 
-  async updatePatient(patient: UpdatePatient): Promise<string> {
+  async updatePatient({ id, ...restPatient }: UpdatePatient): Promise<string> {
     try {
       return await fetchAndValidateSchema(
-        () => api.patch(`/patient/${patient.id}`, patient),
+        () => api.patch(`/patient/${id}`, restPatient),
         crudPatientResponseSchema
       );
     } catch (error) {
