@@ -31,9 +31,9 @@ export function useCreatePatientForm() {
     },
   };
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, setValue, watch } = useForm({
     resolver: zodResolver(createPatientSchema),
     defaultValues,
   });
-  return { control, handleSubmit, reset };
+  return { control, handleSubmit, reset, setValue, watch };
 }

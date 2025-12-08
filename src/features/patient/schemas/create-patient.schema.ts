@@ -1,17 +1,52 @@
 import z from "zod";
 import { EDUCATION_LEVEL, PATIENT_GENDER } from "./patient.schemas";
 
-const conditionSchema = z.object({
-  code: z.string().min(1, "El código de la condición es requerido"),
+// Schema interno para recibir objetos completos del catálogo
+const conditionInputSchema = z.object({
+  id: z.number(),
+  code: z.string(),
+  name: z.string(),
+  description: z.string(),
+  extra: z.string(),
 });
 
-const currentMedicationSchema = z.object({
-  expedient: z.string().min(1, "El expediente del medicamento es requerido"),
+const medicationInputSchema = z.object({
+  id: z.number(),
+  product: z.string(),
+  expedient: z.string(),
+  headline: z.string(),
+  healthRegistry: z.string(),
+  commercialDescription: z.string(),
+  atc: z.string(),
+  descriptionAtc: z.string(),
+  medicalSample: z.boolean(),
+  viaAdministration: z.string(),
+  unitMeasurement: z.string(),
+  quantity: z.number(),
+  referenceUnit: z.string(),
+  pharmaceuticalForm: z.string(),
 });
 
-const familyBackgroundSchema = z.object({
-  code: z.string().min(1, "El código del antecedente es requerido"),
+const familyBackgroundInputSchema = z.object({
+  id: z.number(),
+  code: z.string(),
+  name: z.string(),
+  description: z.string(),
+  extra: z.string(),
 });
+
+// Schemas transformados para enviar solo los campos necesarios
+const conditionSchema = conditionInputSchema.transform((val) => ({
+  code: val.code,
+}));
+
+const currentMedicationSchema = medicationInputSchema.transform((val) => ({
+  expedient: val.expedient,
+}));
+
+const familyBackgroundSchema = familyBackgroundInputSchema.transform((val) => ({
+  code: val.code,
+}));
 
 const symptomsPresentSchema = z.object({
   memoryLoss: z.boolean(),
@@ -68,17 +103,12 @@ export const createPatientSchema = z.object({
     .refine((val) => val > 0, "La tensión debe ser positiva"),
   eps: z
     .string()
+    .min(1, "Seleccione una EPS")
     .transform((val) => parseInt(val, 10))
     .refine((val) => !isNaN(val), "El EPS debe ser un número válido")
     .refine((val) => val > 0, "El EPS debe ser positivo"),
-  conditions: z
-    .array(conditionSchema)
-    .min(1, "Al menos una condición es requerida"),
-  currentMedications: z
-    .array(currentMedicationSchema)
-    .min(1, "Al menos un medicamento es requerido"),
-  familyBackground: z
-    .array(familyBackgroundSchema)
-    .min(1, "Al menos un antecedente es requerido"),
+  conditions: z.array(conditionSchema).default([]),
+  currentMedications: z.array(currentMedicationSchema).default([]),
+  familyBackground: z.array(familyBackgroundSchema).default([]),
   symptomsPresent: symptomsPresentSchema,
 });

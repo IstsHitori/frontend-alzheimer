@@ -19,24 +19,53 @@ import {
   SelectGroup,
   SelectLabel,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import type { CreatePatient } from "../types";
 import { EDUCATION_LEVEL, PATIENT_GENDER } from "../schemas";
+import { SearchableMultiSelect } from "./SearchableMultiSelect";
+import { useState, useCallback } from "react";
+import { catalogApi } from "@/api";
+import type { Condition, Medication } from "../types";
 
 interface NewPatientFormProps {
   onPatientCreated: () => void;
   onBack: () => void;
 }
 export function NewPatientForm({
-  onPatientCreated,
   onBack,
 }: NewPatientFormProps) {
   const { isCreating, setIscreating } = useCreatePatient();
-  const { control, handleSubmit, reset } = useCreatePatientForm();
-  const { epsList } = useCatalog();
+  const { control, handleSubmit } = useCreatePatientForm();
+  const { epsList, conditions, medications } = useCatalog();
+
+  // State for search results
+  const [conditionSearchResults, setConditionSearchResults] = useState<Condition[]>([]);
+  const [medicationSearchResults, setMedicationSearchResults] = useState<Medication[]>([]);
+
+  // Search handlers with useCallback to prevent infinite loops
+  const handleConditionSearch = useCallback(async (searchTerm: string) => {
+    
+    if (searchTerm.trim()) {
+      const results = await catalogApi.getConditionsBySearch(searchTerm);
+      setConditionSearchResults(results);
+    } else {
+      setConditionSearchResults(conditions.slice(0, 50));
+    }
+  }, [conditions]);
+
+  const handleMedicationSearch = useCallback(async (searchTerm: string) => {
+    if (searchTerm.trim()) {
+      const results = await catalogApi.getMedicationsBySearch(searchTerm);
+      setMedicationSearchResults(results);
+    } else {
+      setMedicationSearchResults(medications.slice(0, 50));
+    }
+  }, [medications]);
 
   const onSubmit: SubmitHandler<CreatePatient> = async (newPatient) => {
     setIscreating(true);
-    console.log(newPatient);
+    console.log("Paciente creado:", newPatient)
+    setIscreating(false);
   };
 
   return (
@@ -294,7 +323,7 @@ export function NewPatientForm({
         {/* Medical Info */}
         <div>
           <h3 className="text-lg font-semibold mb-4">Información Médica</h3>
-          <FieldGroup className="grid grid-cols-2 gap-4">
+          <FieldGroup className="space-y-4">
             <Controller
               control={control}
               name="eps"
@@ -314,23 +343,19 @@ export function NewPatientForm({
                       <SelectValue placeholder="Selecciona una eps" />
                     </SelectTrigger>
 
-                    <SelectContent position="item-aligned">
+                    <SelectContent position="item-aligned" className="max-h-[300px]">
                       <SelectGroup>
                         <SelectLabel className="text-center">
                           Regimen subsidiado
                         </SelectLabel>
                         <SelectSeparator />
-                        {epsList.map(
-                          (eps) =>
-                            eps.regime.toLowerCase() === "subsidiado" && (
-                              <SelectItem
-                                key={eps.id}
-                                value={eps.nit.toString()}
-                              >
-                                {eps.entity}
-                              </SelectItem>
-                            )
-                        )}
+                        {epsList
+                          .filter((eps) => eps.regime.toLowerCase() === "subsidiado")
+                          .map((eps) => (
+                            <SelectItem key={eps.id} value={eps.id.toString()}>
+                              {eps.entity}
+                            </SelectItem>
+                          ))}
                       </SelectGroup>
 
                       <SelectGroup>
@@ -338,17 +363,13 @@ export function NewPatientForm({
                           Regimen contributivo
                         </SelectLabel>
                         <SelectSeparator />
-                        {epsList.map(
-                          (eps) =>
-                            eps.regime.toLowerCase() === "contributivo" && (
-                              <SelectItem
-                                key={eps.id}
-                                value={eps.nit.toString()}
-                              >
-                                {eps.entity}
-                              </SelectItem>
-                            )
-                        )}
+                        {epsList
+                          .filter((eps) => eps.regime.toLowerCase() === "contributivo")
+                          .map((eps) => (
+                            <SelectItem key={eps.id} value={eps.id.toString()}>
+                              {eps.entity}
+                            </SelectItem>
+                          ))}
                       </SelectGroup>
 
                       <SelectGroup>
@@ -356,17 +377,13 @@ export function NewPatientForm({
                           Ambos regimenes
                         </SelectLabel>
                         <SelectSeparator />
-                        {epsList.map(
-                          (eps) =>
-                            eps.regime.toLowerCase() === "ambos regimenes" && (
-                              <SelectItem
-                                key={eps.id}
-                                value={eps.nit.toString()}
-                              >
-                                {eps.entity}
-                              </SelectItem>
-                            )
-                        )}
+                        {epsList
+                          .filter((eps) => eps.regime.toLowerCase() === "ambos regimenes")
+                          .map((eps) => (
+                            <SelectItem key={eps.id} value={eps.id.toString()}>
+                              {eps.entity}
+                            </SelectItem>
+                          ))}
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -375,6 +392,213 @@ export function NewPatientForm({
                     <FieldError errors={[fieldState.error]} />
                   )}
                 </Field>
+              )}
+            />
+
+            {/* Medical Conditions */}
+            <Controller
+              control={control}
+              name="conditions"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <SearchableMultiSelect<Condition>
+                    label="Condiciones Médicas"
+                    placeholder="Buscar condición por nombre o código..."
+                    selectedItems={field.value || []}
+                    onItemsChange={field.onChange}
+                    availableItems={conditionSearchResults.length > 0 ? conditionSearchResults : conditions.slice(0, 50)}
+                    onSearch={handleConditionSearch}
+                    getItemId={(item) => item.id}
+                    getItemLabel={(item) => item.name}
+                    getItemSecondary={(item) => `Código: ${item.code}`}
+                    disabled={isCreating}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+
+            {/* Current Medications */}
+            <Controller
+              control={control}
+              name="currentMedications"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <SearchableMultiSelect<Medication>
+                    label="Medicamentos Actuales"
+                    placeholder="Buscar medicamento por producto o expediente..."
+                    selectedItems={field.value || []}
+                    onItemsChange={field.onChange}
+                    availableItems={medicationSearchResults.length > 0 ? medicationSearchResults : medications.slice(0, 50)}
+                    onSearch={handleMedicationSearch}
+                    getItemId={(item) => item.id}
+                    getItemLabel={(item) => item.product}
+                    getItemSecondary={(item) => `Expediente: ${item.expedient}`}
+                    disabled={isCreating}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+
+            {/* Family Background */}
+            <Controller
+              control={control}
+              name="familyBackground"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <SearchableMultiSelect<Condition>
+                    label="Antecedentes Familiares"
+                    placeholder="Buscar antecedente por nombre o código..."
+                    selectedItems={field.value || []}
+                    onItemsChange={field.onChange}
+                    availableItems={conditionSearchResults.length > 0 ? conditionSearchResults : conditions.slice(0, 50)}
+                    onSearch={handleConditionSearch}
+                    getItemId={(item) => item.id}
+                    getItemLabel={(item) => item.name}
+                    getItemSecondary={(item) => `Código: ${item.code}`}
+                    disabled={isCreating}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+          </FieldGroup>
+        </div>
+
+        {/* Current Symptoms */}
+        <div>
+          <h3 className="text-lg font-semibold mb-4">Síntomas Actuales</h3>
+          <FieldGroup className="grid grid-cols-2 gap-4">
+            <Controller
+              control={control}
+              name="symptomsPresent.memoryLoss"
+              render={({ field }) => (
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="memoryLoss"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled={isCreating}
+                  />
+                  <label
+                    htmlFor="memoryLoss"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Pérdida de memoria
+                  </label>
+                </div>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="symptomsPresent.lenguageProblems"
+              render={({ field }) => (
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="lenguageProblems"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled={isCreating}
+                  />
+                  <label
+                    htmlFor="lenguageProblems"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Problemas de lenguaje
+                  </label>
+                </div>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="symptomsPresent.difficultyWithTasks"
+              render={({ field }) => (
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="difficultyWithTasks"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled={isCreating}
+                  />
+                  <label
+                    htmlFor="difficultyWithTasks"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Dificultad con tareas
+                  </label>
+                </div>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="symptomsPresent.disorientation"
+              render={({ field }) => (
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="disorientation"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled={isCreating}
+                  />
+                  <label
+                    htmlFor="disorientation"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Desorientación
+                  </label>
+                </div>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="symptomsPresent.personalityChanges"
+              render={({ field }) => (
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="personalityChanges"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled={isCreating}
+                  />
+                  <label
+                    htmlFor="personalityChanges"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Cambios de personalidad
+                  </label>
+                </div>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="symptomsPresent.temporalConfusion"
+              render={({ field }) => (
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="temporalConfusion"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled={isCreating}
+                  />
+                  <label
+                    htmlFor="temporalConfusion"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Confusión temporal/espacial
+                  </label>
+                </div>
               )}
             />
           </FieldGroup>
