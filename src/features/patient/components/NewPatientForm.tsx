@@ -289,6 +289,7 @@ export function NewPatientForm({
                     {...field}
                     id="weight"
                     type="number"
+                    step="0.01"
                     placeholder="70"
                   />
                   {fieldState.invalid && (
@@ -308,8 +309,9 @@ export function NewPatientForm({
                     {...field}
                     id="size"
                     type="number"
+                    step="0.01"
                     min={0}
-                    placeholder="175"
+                    placeholder="1.75"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -328,6 +330,7 @@ export function NewPatientForm({
                     {...field}
                     id="tension"
                     type="number"
+                    step="0.01"
                     placeholder="120"
                     min={0}
                   />

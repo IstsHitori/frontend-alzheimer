@@ -14,7 +14,7 @@ import {
   usePatientSelection,
 } from "@/features/patient/hooks";
 import useGetPatients from "@/features/patient/hooks/useGetPatients";
-import { NewPatientForm } from "@/features/patient/components";
+import { NewPatientForm, EditPatientForm } from "@/features/patient/components";
 
 export default function MedicDashboardPage() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -36,6 +36,8 @@ export default function MedicDashboardPage() {
     handleAddPatient,
     handlePatientCreated,
     handleCloseNewPatient,
+    handleCloseEdit,
+    handlePatientUpdated,
   } = usePatientSelection();
 
   const {
@@ -105,7 +107,13 @@ export default function MedicDashboardPage() {
   }
 
   if (editingPatient) {
-    //Show
+    return (
+      <EditPatientForm
+        patient={editingPatient}
+        onPatientUpdated={handlePatientUpdated}
+        onBack={handleCloseEdit}
+      />
+    );
   }
 
   if (selectedPatient) {

@@ -5,3 +5,4 @@ export * from './useGetCatalog';
 export * from './useGetPatients';
 export * from './usePatientSelection';
 export * from './useUpdatePatient';
+export * from './useUpdatePatientForm';
