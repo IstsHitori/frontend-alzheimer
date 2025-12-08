@@ -10,6 +10,7 @@ import {
 import { useMedicalDashboard, usePDFGenerators } from "../hooks";
 import { usePatientSelection } from "@/features/patient/hooks";
 import useGetPatients from "@/features/patient/hooks/useGetPatients";
+import { NewPatientForm } from "@/features/patient/components";
 
 export default function MedicDashboardPage() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -24,6 +25,8 @@ export default function MedicDashboardPage() {
     handleSelectPatient,
     handleEditPatient,
     handleAddPatient,
+    handlePatientCreated,
+    handleCloseNewPatient,
   } = usePatientSelection();
 
   const {
@@ -70,7 +73,10 @@ export default function MedicDashboardPage() {
   }
 
   if (showNewPatientForm) {
-    //ShowPatientForm
+    return <NewPatientForm
+      onPatientCreated={handlePatientCreated}
+      onBack={handleCloseNewPatient}
+    />;
   }
 
   if (editingPatient) {

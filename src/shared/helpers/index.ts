@@ -17,7 +17,6 @@ export async function fetchAndValidateSchema<T>(
 }
 
 export function handleAxiosError(error: unknown): never {
-  
   if (isAxiosError(error)) {
     const status = error.response?.status || 500;
     const message = error.response?.data?.message || "Error en el servidor";

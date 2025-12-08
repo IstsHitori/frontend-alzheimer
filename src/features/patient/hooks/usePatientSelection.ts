@@ -35,7 +35,6 @@ export function usePatientSelection() {
   };
 
   const handlePatientUpdated = (patient: Patient) => {
-    console.log("[MedicDashboard] Paciente actualizado:", patient);
     setEditingPatient(null);
     if (selectedPatient && selectedPatient.id === patient.id) {
       setSelectedPatient(patient);

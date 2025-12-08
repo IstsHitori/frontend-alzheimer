@@ -1,5 +1,10 @@
 import z from "zod";
 
+export enum PATIENT_GENDER {
+  MALE = "masculino",
+  FEMALE = "femenino",
+}
+
 export const patientSchema = z.object({
   id: z.uuid(),
   personalInfo: z.object({
@@ -8,7 +13,7 @@ export const patientSchema = z.object({
     fullName: z.string(),
     birthDate: z.string(),
     age: z.number(),
-    gender: z.string(),
+    gender: z.enum(PATIENT_GENDER),
     educationLevel: z.string(),
   }),
   physicalData: z.object({

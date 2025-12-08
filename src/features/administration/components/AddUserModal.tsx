@@ -197,6 +197,7 @@ export function AddUserModal() {
                     >
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
+
                     <SelectContent position="item-aligned">
                       <SelectItem value="auto">Selecciona un rol</SelectItem>
                       <SelectSeparator />
