@@ -1,5 +1,5 @@
 import z from "zod";
-import { PATIENT_GENDER } from "./patient.schemas";
+import { EDUCATION_LEVEL, PATIENT_GENDER } from "./patient.schemas";
 
 const conditionSchema = z.object({
   code: z.string().min(1, "El código de la condición es requerido"),
@@ -23,16 +23,19 @@ const symptomsPresentSchema = z.object({
 });
 
 export const createPatientSchema = z.object({
-  identification: z.string().min(1, "La identificación es requerida"),
-  telephone: z.string().min(1, "El teléfono es requerido"),
+  identification: z.number(),
+  telephone: z.number(),
   fullName: z.string().min(1, "El nombre completo es requerido"),
   birthDate: z.string().min(1, "La fecha de nacimiento es requerida"),
   gender: z.enum(PATIENT_GENDER, "Ingrese un género válido"),
-  educationLevel: z.string().min(1, "El nivel de educación es requerido"),
-  weight: z.number().positive("El peso debe ser un número positivo"),
-  size: z.number().positive("La talla debe ser un número positivo"),
-  tension: z.number().positive("La tensión debe ser un número positivo"),
-  eps: z.number().positive("El EPS debe ser un número positivo"),
+  educationLevel: z.enum(
+    EDUCATION_LEVEL,
+    "Ingrese un nivel de educación válido"
+  ),
+  weight: z.number(),
+  size: z.number(),
+  tension: z.number(),
+  eps: z.number(),
   conditions: z
     .array(conditionSchema)
     .min(1, "Al menos una condición es requerida"),

@@ -5,6 +5,13 @@ export enum PATIENT_GENDER {
   FEMALE = "femenino",
 }
 
+export enum EDUCATION_LEVEL {
+  PRIMARY = "primaria",
+  SECONDARY = "secundaria",
+  COLLEGE = "universidad",
+  POSTGRADUATE = "postgrado",
+}
+
 export const patientSchema = z.object({
   id: z.uuid(),
   personalInfo: z.object({
@@ -14,7 +21,7 @@ export const patientSchema = z.object({
     birthDate: z.string(),
     age: z.number(),
     gender: z.enum(PATIENT_GENDER),
-    educationLevel: z.string(),
+    educationLevel: z.enum(EDUCATION_LEVEL),
   }),
   physicalData: z.object({
     weight: z.number(),

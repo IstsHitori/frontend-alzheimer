@@ -15,9 +15,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectContent,
+  SelectSeparator,
 } from "@/components/ui/select";
-import { SelectContent, SelectSeparator } from "@radix-ui/react-select";
-import { PATIENT_GENDER } from "../schemas";
+import { EDUCATION_LEVEL, PATIENT_GENDER } from "../schemas";
 
 interface NewPatientFormProps {
   onPatientCreated: () => void;
@@ -30,7 +31,10 @@ export function NewPatientForm({
   const { isCreating } = useCreatePatient();
   const { control, handleSubmit, reset } = useCreatePatientForm();
 
-  const onSubmit: SubmitHandler<CreatePatient> = async (newPatient) => {};
+  const onSubmit: SubmitHandler<CreatePatient> = async (newPatient) => {
+    console.log(newPatient);
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -83,6 +87,8 @@ export function NewPatientForm({
                     {...field}
                     id="identification"
                     placeholder="1234567890"
+                    type="number"
+                    min={0}
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -110,13 +116,11 @@ export function NewPatientForm({
               name="gender"
               render={({ field, fieldState }) => (
                 <Field
-                  orientation={"responsive"}
+                  orientation={"vertical"}
                   data-invalid={fieldState.invalid}
                 >
                   <FieldLabel htmlFor="gender">Género</FieldLabel>
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
+
                   <Select
                     name={field.name}
                     value={field.value}
@@ -127,11 +131,11 @@ export function NewPatientForm({
                       aria-invalid={fieldState.invalid}
                       className="min-w-[120px]"
                     >
-                      <SelectValue placeholder="Select" />
+                      <SelectValue placeholder="Selecciona un género" />
                     </SelectTrigger>
 
                     <SelectContent position="item-aligned">
-                      <SelectItem value="auto">Selecciona un género</SelectItem>
+                      <SelectItem value="auto">Género</SelectItem>
                       <SelectSeparator />
                       <SelectItem value={PATIENT_GENDER.MALE}>
                         Masculino
@@ -141,6 +145,9 @@ export function NewPatientForm({
                       </SelectItem>
                     </SelectContent>
                   </Select>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
                 </Field>
               )}
             />
@@ -150,7 +157,57 @@ export function NewPatientForm({
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="telephone">Teléfono</FieldLabel>
-                  <Input {...field} id="telephone" placeholder="3001234567" />
+                  <Input
+                    {...field}
+                    id="telephone"
+                    placeholder="3001234567"
+                    type="number"
+                    min={0}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              control={control}
+              name="educationLevel"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="educationLevel">
+                    Nivel educativo
+                  </FieldLabel>
+                  <Select
+                    name={field.name}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger
+                      id="educationLevel"
+                      aria-invalid={fieldState.invalid}
+                      className="min-w-[120px]"
+                    >
+                      <SelectValue placeholder="Selecciona un nivel de educación" />
+                    </SelectTrigger>
+
+                    <SelectContent position="item-aligned">
+                      <SelectItem value={"auto"}>Nivel de eduación</SelectItem>
+                      <SelectSeparator />
+                      <SelectItem value={EDUCATION_LEVEL.PRIMARY}>
+                        Primaria
+                      </SelectItem>
+                      <SelectItem value={EDUCATION_LEVEL.SECONDARY}>
+                        Secundaria
+                      </SelectItem>
+                      <SelectItem value={EDUCATION_LEVEL.COLLEGE}>
+                        Universidad
+                      </SelectItem>
+                      <SelectItem value={EDUCATION_LEVEL.POSTGRADUATE}>
+                        Postgrado
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -182,19 +239,27 @@ export function NewPatientForm({
                 </Field>
               )}
             />
+
             <Controller
               control={control}
               name="size"
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="size">Altura (cm)</FieldLabel>
-                  <Input {...field} id="size" type="number" placeholder="175" />
+                  <Input
+                    {...field}
+                    id="size"
+                    type="number"
+                    min={0}
+                    placeholder="175"
+                  />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
                 </Field>
               )}
             />
+
             <Controller
               control={control}
               name="tension"
@@ -206,6 +271,7 @@ export function NewPatientForm({
                     id="tension"
                     type="number"
                     placeholder="120"
+                    min={0}
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -220,25 +286,6 @@ export function NewPatientForm({
         <div>
           <h3 className="text-lg font-semibold mb-4">Información Médica</h3>
           <FieldGroup className="grid grid-cols-2 gap-4">
-            <Controller
-              control={control}
-              name="educationLevel"
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="educationLevel">
-                    Nivel educativo
-                  </FieldLabel>
-                  <Input
-                    {...field}
-                    id="educationLevel"
-                    placeholder="Primaria"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
             <Controller
               control={control}
               name="eps"

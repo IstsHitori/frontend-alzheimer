@@ -1,15 +1,19 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createPatientSchema, PATIENT_GENDER } from "../schemas";
+import {
+  createPatientSchema,
+  EDUCATION_LEVEL,
+  PATIENT_GENDER,
+} from "../schemas";
 
 export function useCreatePatientForm() {
   const defaultValues = {
-    identification: "",
-    telephone: "",
+    identification: 0,
+    telephone: 0,
     fullName: "",
     birthDate: "",
     gender: PATIENT_GENDER.MALE,
-    educationLevel: "",
+    educationLevel: EDUCATION_LEVEL.PRIMARY,
     weight: 0,
     size: 0,
     tension: 0,
