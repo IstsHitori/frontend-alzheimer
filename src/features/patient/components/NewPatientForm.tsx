@@ -35,7 +35,7 @@ interface NewPatientFormProps {
 export function NewPatientForm({
   onBack,
 }: NewPatientFormProps) {
-  const { isCreating, setIscreating } = useCreatePatient();
+  const { isCreating, setIscreating, mutate } = useCreatePatient();
   const { control, handleSubmit } = useCreatePatientForm();
   const { epsList, conditions, medications } = useCatalog();
 
@@ -65,7 +65,7 @@ export function NewPatientForm({
 
   const onSubmit: SubmitHandler<CreatePatient> = async (newPatient) => {
     setIscreating(true);
-    console.log("Paciente creado:", newPatient)
+    mutate(newPatient)
     setIscreating(false);
   };
 

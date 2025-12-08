@@ -9,6 +9,7 @@ export default function useGetPatients() {
   const patientsQuery = useQuery({
     queryKey: ["patients"],
     queryFn: patientApi.getAllPatients,
+    staleTime: 10 * 60 * 1000,
   });
 
   return { setPatients, patients, patientsQuery };
