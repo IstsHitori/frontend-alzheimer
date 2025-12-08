@@ -75,8 +75,11 @@ export const createPatientSchema = z.object({
       const today = new Date();
       const age = today.getFullYear() - birthDate.getFullYear();
       const monthDiff = today.getMonth() - birthDate.getMonth();
-      
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < birthDate.getDate())
+      ) {
         return age - 1 >= 5;
       }
       return age >= 5;
@@ -111,4 +114,8 @@ export const createPatientSchema = z.object({
   currentMedications: z.array(currentMedicationSchema).default([]),
   familyBackground: z.array(familyBackgroundSchema).default([]),
   symptomsPresent: symptomsPresentSchema,
+});
+
+export const updatePatientSchema = createPatientSchema.extend({
+  id: z.uuid("El ID no es válido"),
 });

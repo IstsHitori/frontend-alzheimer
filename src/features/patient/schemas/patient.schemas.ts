@@ -79,4 +79,6 @@ export const patientSchema = z.object({
   }),
 });
 
+export const crudPatientResponseSchema = z.string();
+
 export const arrayPatientSchema = z.array(patientSchema);

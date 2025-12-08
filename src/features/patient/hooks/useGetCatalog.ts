@@ -5,6 +5,7 @@ export function useGetCatalog() {
   const epsQuery = useQuery({
     queryKey: ["eps"],
     queryFn: catalogApi.getAllEps,
+    staleTime: 1000 * 60 * 60,
   });
 
   const conditionsQuery = useQuery({

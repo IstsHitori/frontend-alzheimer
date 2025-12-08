@@ -1,7 +1,14 @@
-import type { Patient } from "@/features/patient/types/patient.types";
+import type {
+  CreatePatient,
+  Patient,
+  UpdatePatient,
+} from "@/features/patient/types/patient.types";
 import { fetchAndValidateSchema, handleAxiosError } from "@/shared/helpers";
 import { api } from "./base-http";
-import { arrayPatientSchema } from "@/features/patient/schemas/patient.schemas";
+import {
+  arrayPatientSchema,
+  crudPatientResponseSchema,
+} from "@/features/patient/schemas/patient.schemas";
 
 class PatientApi {
   async getAllPatients(): Promise<Patient[]> {
@@ -9,6 +16,39 @@ class PatientApi {
       return await fetchAndValidateSchema<Patient[]>(
         () => api.get("/patient"),
         arrayPatientSchema
+      );
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+
+  async createPatient(newPatient: CreatePatient): Promise<string> {
+    try {
+      return await fetchAndValidateSchema(
+        () => api.post("/patient", newPatient),
+        crudPatientResponseSchema
+      );
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+
+  async updatePatient(patient: UpdatePatient): Promise<string> {
+    try {
+      return await fetchAndValidateSchema(
+        () => api.patch(`/patient/${patient.id}`, patient),
+        crudPatientResponseSchema
+      );
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+
+  async deletePatient(patientId: Patient["id"]): Promise<string> {
+    try {
+      return await fetchAndValidateSchema(
+        () => api.delete(`/patient/${patientId}`),
+        crudPatientResponseSchema
       );
     } catch (error) {
       handleAxiosError(error);

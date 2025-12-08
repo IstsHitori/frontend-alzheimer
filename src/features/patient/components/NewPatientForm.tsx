@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, User, Activity, Stethoscope, ClipboardList } from "lucide-react";
 import { useCatalog, useCreatePatient, useCreatePatientForm } from "../hooks";
 import {
   Field,
@@ -20,6 +20,7 @@ import {
   SelectLabel,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { CreatePatient } from "../types";
 import { EDUCATION_LEVEL, PATIENT_GENDER } from "../schemas";
 import { SearchableMultiSelect } from "./SearchableMultiSelect";
@@ -69,26 +70,35 @@ export function NewPatientForm({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 mb-6">
         <Button variant="outline" onClick={onBack} disabled={isCreating}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Volver
         </Button>
         <div>
-          <h2 className="text-2xl font-bold">Nuevo Paciente</h2>
-          <p className="text-muted-foreground">
+          <h2 className="text-3xl font-bold tracking-tight">Nuevo Paciente</h2>
+          <p className="text-muted-foreground mt-1">
             Complete la información del paciente para su registro en el sistema
           </p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        {/* Personal Info */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Información Personal</h3>
-          <FieldGroup className="grid grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* Personal Info Card */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <User className="h-5 w-5 text-primary" />
+              <CardTitle>Información Personal</CardTitle>
+            </div>
+            <CardDescription>
+              Datos básicos de identificación del paciente
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FieldGroup className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Controller
               control={control}
               name="fullName"
@@ -253,12 +263,22 @@ export function NewPatientForm({
               )}
             />
           </FieldGroup>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Health Metrics */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Métricas de Salud</h3>
-          <FieldGroup className="grid grid-cols-3 gap-4">
+        {/* Health Metrics Card */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <Activity className="h-5 w-5 text-primary" />
+              <CardTitle>Métricas de Salud</CardTitle>
+            </div>
+            <CardDescription>
+              Medidas físicas y signos vitales del paciente
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FieldGroup className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Controller
               control={control}
               name="weight"
@@ -318,12 +338,22 @@ export function NewPatientForm({
               )}
             />
           </FieldGroup>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Medical Info */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Información Médica</h3>
-          <FieldGroup className="space-y-4">
+        {/* Medical Info Card */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <Stethoscope className="h-5 w-5 text-primary" />
+              <CardTitle>Información Médica</CardTitle>
+            </div>
+            <CardDescription>
+              EPS, condiciones médicas, medicamentos y antecedentes familiares
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FieldGroup className="space-y-6">
             <Controller
               control={control}
               name="eps"
@@ -470,17 +500,27 @@ export function NewPatientForm({
               )}
             />
           </FieldGroup>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Current Symptoms */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Síntomas Actuales</h3>
-          <FieldGroup className="grid grid-cols-2 gap-4">
+        {/* Current Symptoms Card */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <ClipboardList className="h-5 w-5 text-primary" />
+              <CardTitle>Síntomas Actuales</CardTitle>
+            </div>
+            <CardDescription>
+              Marque los síntomas que presenta actualmente el paciente
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FieldGroup className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Controller
               control={control}
               name="symptomsPresent.memoryLoss"
               render={({ field }) => (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
                   <Checkbox
                     id="memoryLoss"
                     checked={field.value}
@@ -489,7 +529,7 @@ export function NewPatientForm({
                   />
                   <label
                     htmlFor="memoryLoss"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm font-medium leading-none cursor-pointer flex-1 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Pérdida de memoria
                   </label>
@@ -501,7 +541,7 @@ export function NewPatientForm({
               control={control}
               name="symptomsPresent.lenguageProblems"
               render={({ field }) => (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
                   <Checkbox
                     id="lenguageProblems"
                     checked={field.value}
@@ -510,7 +550,7 @@ export function NewPatientForm({
                   />
                   <label
                     htmlFor="lenguageProblems"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm font-medium leading-none cursor-pointer flex-1 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Problemas de lenguaje
                   </label>
@@ -522,7 +562,7 @@ export function NewPatientForm({
               control={control}
               name="symptomsPresent.difficultyWithTasks"
               render={({ field }) => (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
                   <Checkbox
                     id="difficultyWithTasks"
                     checked={field.value}
@@ -531,7 +571,7 @@ export function NewPatientForm({
                   />
                   <label
                     htmlFor="difficultyWithTasks"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm font-medium leading-none cursor-pointer flex-1 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Dificultad con tareas
                   </label>
@@ -543,7 +583,7 @@ export function NewPatientForm({
               control={control}
               name="symptomsPresent.disorientation"
               render={({ field }) => (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
                   <Checkbox
                     id="disorientation"
                     checked={field.value}
@@ -552,7 +592,7 @@ export function NewPatientForm({
                   />
                   <label
                     htmlFor="disorientation"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm font-medium leading-none cursor-pointer flex-1 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Desorientación
                   </label>
@@ -564,7 +604,7 @@ export function NewPatientForm({
               control={control}
               name="symptomsPresent.personalityChanges"
               render={({ field }) => (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
                   <Checkbox
                     id="personalityChanges"
                     checked={field.value}
@@ -573,7 +613,7 @@ export function NewPatientForm({
                   />
                   <label
                     htmlFor="personalityChanges"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm font-medium leading-none cursor-pointer flex-1 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Cambios de personalidad
                   </label>
@@ -585,7 +625,7 @@ export function NewPatientForm({
               control={control}
               name="symptomsPresent.temporalConfusion"
               render={({ field }) => (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
                   <Checkbox
                     id="temporalConfusion"
                     checked={field.value}
@@ -594,7 +634,7 @@ export function NewPatientForm({
                   />
                   <label
                     htmlFor="temporalConfusion"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm font-medium leading-none cursor-pointer flex-1 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Confusión temporal/espacial
                   </label>
@@ -602,11 +642,34 @@ export function NewPatientForm({
               )}
             />
           </FieldGroup>
-        </div>
+          </CardContent>
+        </Card>
 
-        <Button type="submit" disabled={isCreating} className="w-full">
-          {isCreating ? "Creando..." : "Crear Paciente"}
-        </Button>
+        {/* Submit Button */}
+        <div className="flex justify-end gap-4 pt-4">
+          <Button 
+            type="button" 
+            variant="outline" 
+            onClick={onBack} 
+            disabled={isCreating}
+          >
+            Cancelar
+          </Button>
+          <Button 
+            type="submit" 
+            disabled={isCreating} 
+            className="min-w-[200px]"
+          >
+            {isCreating ? (
+              <>
+                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                Creando...
+              </>
+            ) : (
+              "Crear Paciente"
+            )}
+          </Button>
+        </div>
       </form>
     </div>
   );
