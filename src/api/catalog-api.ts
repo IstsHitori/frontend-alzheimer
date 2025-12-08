@@ -18,6 +18,7 @@ class CatalogApi {
       handleAxiosError(error);
     }
   }
+
   async getAllConditions(): Promise<Condition[]> {
     try {
       return await fetchAndValidateSchema(
@@ -28,10 +29,33 @@ class CatalogApi {
       handleAxiosError(error);
     }
   }
+
+  async getConditionsBySearch(searchParam: string): Promise<Condition[]> {
+    try {
+      return await fetchAndValidateSchema(
+        () => api.get(`/catalog/conditions/search?search=${searchParam}`),
+        arrayConditionSchema
+      );
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+
   async getAllMedicatios(): Promise<Medication[]> {
     try {
       return await fetchAndValidateSchema(
         () => api.get("/catalog/medications"),
+        arrayMedicationSchema
+      );
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+
+  async getMedicationsBySearch(searchParam: string): Promise<Medication[]> {
+    try {
+      return await fetchAndValidateSchema(
+        () => api.get(`/catalog/medications/search?search=${searchParam}`),
         arrayMedicationSchema
       );
     } catch (error) {
