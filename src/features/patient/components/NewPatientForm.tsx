@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/field";
 import { Controller, type SubmitHandler } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import type { CreatePatient } from "../types/patient.types";
 import {
   Select,
   SelectItem,
@@ -20,6 +19,7 @@ import {
   SelectGroup,
   SelectLabel,
 } from "@/components/ui/select";
+import type { CreatePatient } from "../types";
 import { EDUCATION_LEVEL, PATIENT_GENDER } from "../schemas";
 
 interface NewPatientFormProps {
@@ -124,7 +124,6 @@ export function NewPatientForm({
                   data-invalid={fieldState.invalid}
                 >
                   <FieldLabel htmlFor="gender">Género</FieldLabel>
-
                   <Select
                     name={field.name}
                     value={field.value}
@@ -137,7 +136,6 @@ export function NewPatientForm({
                     >
                       <SelectValue placeholder="Selecciona un género" />
                     </SelectTrigger>
-
                     <SelectContent position="item-aligned">
                       <SelectGroup>
                         <SelectLabel className="text-center">
@@ -198,7 +196,6 @@ export function NewPatientForm({
                     >
                       <SelectValue placeholder="Selecciona un nivel de educación" />
                     </SelectTrigger>
-
                     <SelectContent position="item-aligned">
                       <SelectGroup>
                         <SelectLabel className="text-center">
