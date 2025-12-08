@@ -4,3 +4,4 @@ export * from './useCreatePatientForm';
 export * from './useGetCatalog';
 export * from './useGetPatients';
 export * from './usePatientSelection';
+export * from './useUpdatePatient';
