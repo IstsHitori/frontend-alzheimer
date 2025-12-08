@@ -8,7 +8,11 @@ import {
   ReportsTab,
 } from "../components";
 import { useMedicalDashboard, usePDFGenerators } from "../hooks";
-import { usePatientSelection } from "@/features/patient/hooks";
+import {
+  useCatalog,
+  useGetCatalog,
+  usePatientSelection,
+} from "@/features/patient/hooks";
 import useGetPatients from "@/features/patient/hooks/useGetPatients";
 import { NewPatientForm } from "@/features/patient/components";
 
@@ -16,6 +20,11 @@ export default function MedicDashboardPage() {
   const [activeTab, setActiveTab] = useState("overview");
 
   const { medicalQuery, medicalStats, setMedicalStats } = useMedicalDashboard();
+
+  const { setEpsList, setConditions, setMedications } = useCatalog();
+
+  const { epsQuery, conditionsQuery, medicationsQuery } = useGetCatalog();
+
   const { patientsQuery, patients, setPatients } = useGetPatients();
 
   const {
@@ -48,6 +57,20 @@ export default function MedicDashboardPage() {
     }
   }, [patientsQuery.isSuccess, patientsQuery.data, setPatients]);
 
+  useEffect(() => {
+    if (epsQuery.isSuccess && epsQuery.data) setEpsList(epsQuery.data);
+  }, [epsQuery.isSuccess, epsQuery.data, setEpsList]);
+
+  useEffect(() => {
+    if (conditionsQuery.isSuccess && conditionsQuery.data)
+      setConditions(conditionsQuery.data);
+  }, [conditionsQuery.isSuccess, conditionsQuery.data, setConditions]);
+
+  useEffect(() => {
+    if (medicationsQuery.isSuccess && medicationsQuery.data)
+      setMedications(medicationsQuery.data);
+  }, [medicationsQuery.isSuccess, medicationsQuery.data, setMedications]);
+
   if (medicalQuery.isLoading || patientsQuery.isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -73,10 +96,12 @@ export default function MedicDashboardPage() {
   }
 
   if (showNewPatientForm) {
-    return <NewPatientForm
-      onPatientCreated={handlePatientCreated}
-      onBack={handleCloseNewPatient}
-    />;
+    return (
+      <NewPatientForm
+        onPatientCreated={handlePatientCreated}
+        onBack={handleCloseNewPatient}
+      />
+    );
   }
 
   if (editingPatient) {

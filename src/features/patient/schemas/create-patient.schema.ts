@@ -32,7 +32,20 @@ export const createPatientSchema = z.object({
     .regex(/^\d{10}$/, "El teléfono debe tener exactamente 10 números")
     .transform((val) => parseInt(val, 10)),
   fullName: z.string().min(1, "El nombre completo es requerido"),
-  birthDate: z.string().min(1, "La fecha de nacimiento es requerida"),
+  birthDate: z
+    .string()
+    .min(1, "La fecha de nacimiento es requerida")
+    .refine((val) => {
+      const birthDate = new Date(val);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        return age - 1 >= 5;
+      }
+      return age >= 5;
+    }, "El paciente debe tener al menos 5 años de edad"),
   gender: z.enum(PATIENT_GENDER, "Ingrese un género válido"),
   educationLevel: z.enum(
     EDUCATION_LEVEL,

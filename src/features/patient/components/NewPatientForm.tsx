@@ -28,10 +28,11 @@ export function NewPatientForm({
   onPatientCreated,
   onBack,
 }: NewPatientFormProps) {
-  const { isCreating } = useCreatePatient();
+  const { isCreating, setIscreating } = useCreatePatient();
   const { control, handleSubmit, reset } = useCreatePatientForm();
 
   const onSubmit: SubmitHandler<CreatePatient> = async (newPatient) => {
+    setIscreating(true);
     console.log(newPatient);
   };
 
