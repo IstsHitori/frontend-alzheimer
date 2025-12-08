@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { useCreatePatient, useCreatePatientForm } from "../hooks";
+import { useCatalog, useCreatePatient, useCreatePatientForm } from "../hooks";
 import {
   Field,
   FieldError,
@@ -17,6 +17,8 @@ import {
   SelectValue,
   SelectContent,
   SelectSeparator,
+  SelectGroup,
+  SelectLabel,
 } from "@/components/ui/select";
 import { EDUCATION_LEVEL, PATIENT_GENDER } from "../schemas";
 
@@ -30,6 +32,7 @@ export function NewPatientForm({
 }: NewPatientFormProps) {
   const { isCreating, setIscreating } = useCreatePatient();
   const { control, handleSubmit, reset } = useCreatePatientForm();
+  const { epsList } = useCatalog();
 
   const onSubmit: SubmitHandler<CreatePatient> = async (newPatient) => {
     setIscreating(true);
@@ -136,14 +139,18 @@ export function NewPatientForm({
                     </SelectTrigger>
 
                     <SelectContent position="item-aligned">
-                      <SelectItem value="auto">Género</SelectItem>
-                      <SelectSeparator />
-                      <SelectItem value={PATIENT_GENDER.MALE}>
-                        Masculino
-                      </SelectItem>
-                      <SelectItem value={PATIENT_GENDER.FEMALE}>
-                        Femenino
-                      </SelectItem>
+                      <SelectGroup>
+                        <SelectLabel className="text-center">
+                          Generos
+                        </SelectLabel>
+                        <SelectSeparator />
+                        <SelectItem value={PATIENT_GENDER.MALE}>
+                          Masculino
+                        </SelectItem>
+                        <SelectItem value={PATIENT_GENDER.FEMALE}>
+                          Femenino
+                        </SelectItem>
+                      </SelectGroup>
                     </SelectContent>
                   </Select>
                   {fieldState.invalid && (
@@ -193,20 +200,24 @@ export function NewPatientForm({
                     </SelectTrigger>
 
                     <SelectContent position="item-aligned">
-                      <SelectItem value={"auto"}>Nivel de eduación</SelectItem>
-                      <SelectSeparator />
-                      <SelectItem value={EDUCATION_LEVEL.PRIMARY}>
-                        Primaria
-                      </SelectItem>
-                      <SelectItem value={EDUCATION_LEVEL.SECONDARY}>
-                        Secundaria
-                      </SelectItem>
-                      <SelectItem value={EDUCATION_LEVEL.COLLEGE}>
-                        Universidad
-                      </SelectItem>
-                      <SelectItem value={EDUCATION_LEVEL.POSTGRADUATE}>
-                        Postgrado
-                      </SelectItem>
+                      <SelectGroup>
+                        <SelectLabel className="text-center">
+                          Nivel de eduación
+                        </SelectLabel>
+                        <SelectSeparator />
+                        <SelectItem value={EDUCATION_LEVEL.PRIMARY}>
+                          Primaria
+                        </SelectItem>
+                        <SelectItem value={EDUCATION_LEVEL.SECONDARY}>
+                          Secundaria
+                        </SelectItem>
+                        <SelectItem value={EDUCATION_LEVEL.COLLEGE}>
+                          Universidad
+                        </SelectItem>
+                        <SelectItem value={EDUCATION_LEVEL.POSTGRADUATE}>
+                          Postgrado
+                        </SelectItem>
+                      </SelectGroup>
                     </SelectContent>
                   </Select>
                   {fieldState.invalid && (
@@ -293,7 +304,76 @@ export function NewPatientForm({
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="eps">EPS</FieldLabel>
-                  <Input {...field} id="eps" type="number" placeholder="1" />
+                  <Select
+                    name={field.name}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger
+                      id="eps"
+                      aria-invalid={fieldState.invalid}
+                      className="min-w-[120px]"
+                    >
+                      <SelectValue placeholder="Selecciona una eps" />
+                    </SelectTrigger>
+
+                    <SelectContent position="item-aligned">
+                      <SelectGroup>
+                        <SelectLabel className="text-center">
+                          Regimen subsidiado
+                        </SelectLabel>
+                        <SelectSeparator />
+                        {epsList.map(
+                          (eps) =>
+                            eps.regime.toLowerCase() === "subsidiado" && (
+                              <SelectItem
+                                key={eps.id}
+                                value={eps.nit.toString()}
+                              >
+                                {eps.entity}
+                              </SelectItem>
+                            )
+                        )}
+                      </SelectGroup>
+
+                      <SelectGroup>
+                        <SelectLabel className="text-center">
+                          Regimen contributivo
+                        </SelectLabel>
+                        <SelectSeparator />
+                        {epsList.map(
+                          (eps) =>
+                            eps.regime.toLowerCase() === "contributivo" && (
+                              <SelectItem
+                                key={eps.id}
+                                value={eps.nit.toString()}
+                              >
+                                {eps.entity}
+                              </SelectItem>
+                            )
+                        )}
+                      </SelectGroup>
+
+                      <SelectGroup>
+                        <SelectLabel className="text-center">
+                          Ambos regimenes
+                        </SelectLabel>
+                        <SelectSeparator />
+                        {epsList.map(
+                          (eps) =>
+                            eps.regime.toLowerCase() === "ambos regimenes" && (
+                              <SelectItem
+                                key={eps.id}
+                                value={eps.nit.toString()}
+                              >
+                                {eps.entity}
+                              </SelectItem>
+                            )
+                        )}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
