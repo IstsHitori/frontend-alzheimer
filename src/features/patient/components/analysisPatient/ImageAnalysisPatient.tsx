@@ -4,6 +4,7 @@ import type { Dispatch } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, Eye } from "lucide-react";
 import { ProbabilyItem } from ".";
+import { useGetProbability } from "../../hooks/useGetProbaility";
 
 type SelectedImageProps = {
   url: string;
@@ -19,44 +20,11 @@ export function ImageAnalysisPatient({
   imgAnalysis,
   setSelectedImage,
 }: ImageAnalysisPatientProps) {
-  // Preparar datos de probabilidades ordenados de más grave a más sano
-  const probabilities = [
-    {
-      label: "Alzheimer severo",
-      value: imgAnalysis.moderateDemented,
-      severity: 3,
-      color: "text-red-700",
-      bgColor: "bg-red-50",
-      borderColor: "border-red-200",
-    },
+  const { probabilities, primaryDiagnosis } = useGetProbability(
+    imgAnalysis,
+    imgAnalysis.diagnosis
+  );
 
-    {
-      label: "Alzheimer Leve",
-      value: imgAnalysis.mildDemented,
-      severity: 2,
-      color: "text-amber-700",
-      bgColor: "bg-amber-50",
-      borderColor: "border-amber-200",
-    },
-    {
-      label: "Alzheimer muy leve",
-      value: imgAnalysis.veryMildDemented,
-      severity: 1,
-      color: "text-blue-700",
-      bgColor: "bg-blue-50",
-      borderColor: "border-blue-200",
-    },
-    {
-      label: "No demente",
-      value: imgAnalysis.nonDemented,
-      severity: 0,
-      color: "text-green-700",
-      bgColor: "bg-green-50",
-      borderColor: "border-green-200",
-    },
-  ]; // Orden fijo: Moderada → Leve → Muy Leve → Sin Demencia
-
-  const primaryDiagnosis = probabilities[0];
   const diagnosisDate = formatDate(imgAnalysis.image.createdAt, "2-digit");
 
   return (
