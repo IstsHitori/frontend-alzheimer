@@ -14,7 +14,7 @@ import {
   usePatientSelection,
 } from "@/features/patient/hooks";
 import useGetPatients from "@/features/patient/hooks/useGetPatients";
-import { NewPatientForm, EditPatientForm } from "@/features/patient/components";
+import { NewPatientForm, EditPatientForm, ShowInfoPatient } from "@/features/patient/components";
 
 export default function MedicDashboardPage() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -38,6 +38,7 @@ export default function MedicDashboardPage() {
     handleCloseNewPatient,
     handleCloseEdit,
     handlePatientUpdated,
+    handleDeselectPatient,
   } = usePatientSelection();
 
   const {
@@ -117,7 +118,10 @@ export default function MedicDashboardPage() {
   }
 
   if (selectedPatient) {
-    //Show
+    return <ShowInfoPatient
+      patient={selectedPatient}
+      onBack={handleDeselectPatient}
+    />;
   }
 
   if (!medicalStats) {
@@ -147,16 +151,28 @@ export default function MedicDashboardPage() {
       >
         <div className="bg-white border border-gray-200 rounded-lg p-1 inline-flex gap-1">
           <TabsList className="grid grid-cols-4 gap-1 bg-transparent p-0">
-            <TabsTrigger value="overview" className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors">
+            <TabsTrigger
+              value="overview"
+              className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors"
+            >
               Resumen
             </TabsTrigger>
-            <TabsTrigger value="patients" className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors">
+            <TabsTrigger
+              value="patients"
+              className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors"
+            >
               Pacientes
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors">
+            <TabsTrigger
+              value="analytics"
+              className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors"
+            >
               Análisis
             </TabsTrigger>
-            <TabsTrigger value="reports" className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors">
+            <TabsTrigger
+              value="reports"
+              className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors"
+            >
               Reportes
             </TabsTrigger>
           </TabsList>

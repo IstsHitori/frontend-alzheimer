@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { User, Calendar, Phone, FileText, Edit, Trash2 } from "lucide-react";
+import { User, Edit, Trash2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
