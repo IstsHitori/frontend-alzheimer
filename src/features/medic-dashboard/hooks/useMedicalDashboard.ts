@@ -9,7 +9,7 @@ export function useMedicalDashboard() {
   );
 
   const medicalQuery = useQuery({
-    queryKey: ["medical-dashoard-stats"],
+    queryKey: ["medical-dashboard-stats"],
     queryFn: medicalDashboardApi.getMedicalDashboardStats,
     staleTime: 1000 * 60 * 3,
   });

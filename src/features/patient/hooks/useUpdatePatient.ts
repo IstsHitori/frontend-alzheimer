@@ -18,6 +18,10 @@ export default function useUpdatePatient() {
       queryClient.invalidateQueries({
         queryKey: ["patient", id],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["medical-dashboard-stats"],
+      });
     },
     onError: (error) => handleErrorToast(error),
   });

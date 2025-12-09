@@ -18,6 +18,10 @@ export function useCreatePatient(onSuccess?: () => void) {
       queryClient.invalidateQueries({
         queryKey: ["patients"],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["medical-dashboard-stats"],
+      });
       onSuccess?.();
     },
     onError: (error) => handleErrorToast(error),

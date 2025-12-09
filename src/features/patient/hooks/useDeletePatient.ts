@@ -19,6 +19,9 @@ export default function useDeletePatient() {
       queryClient.invalidateQueries({
         queryKey: ["patient", patientId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["medical-dashboard-stats"],
+      });
     },
     onError: (error) => handleErrorToast(error),
   });

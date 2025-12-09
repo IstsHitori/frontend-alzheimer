@@ -75,7 +75,7 @@ export function AddUserModal() {
           <span className="sm:hidden">Agregar</span>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle>Agregar Nuevo Usuario</DialogTitle>
           <DialogDescription>
@@ -221,7 +221,7 @@ export function AddUserModal() {
               type="button"
               variant="outline"
               onClick={handleClose}
-              className="flex-1 bg-transparent"
+              className="flex-1"
             >
               Cancelar
             </Button>

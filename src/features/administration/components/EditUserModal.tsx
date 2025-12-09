@@ -82,7 +82,7 @@ export function EditUserModal() {
 
   return (
     <Dialog open={isEditUserOpen} onOpenChange={handleOpenChange}>
-      <DialogContent>
+      <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle>Editar Usuario</DialogTitle>
           <DialogDescription>
@@ -208,7 +208,7 @@ export function EditUserModal() {
               type="button"
               variant="outline"
               onClick={handleClose}
-              className="flex-1 bg-transparent"
+              className="flex-1"
             >
               Cancelar
             </Button>
