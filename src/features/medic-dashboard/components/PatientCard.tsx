@@ -61,72 +61,59 @@ export function PatientCard({
 
   return (
     <Card
-      className="hover:shadow-md transition-all duration-200 cursor-pointer border-l-4 border-l-primary"
+      className="hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 bg-white overflow-hidden"
       onClick={() => onPatientSelect(patient)}
     >
       <CardContent className="p-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           {/* Left Section - Patient Info */}
-          <div className="flex items-start gap-3 flex-1">
+          <div className="flex items-center gap-3 flex-1">
             {/* Avatar */}
-            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-              <User className="h-6 w-6 text-primary" />
+            <div className="h-10 w-10 rounded-lg bg-linear-to-br from-primary/20 to-blue-100 flex items-center justify-center shrink-0 border border-primary/10">
+              <User className="h-5 w-5 text-primary" />
             </div>
 
             {/* Patient Details */}
             <div className="flex-1 min-w-0">
               {/* Name and ID */}
-              <div className="flex items-center gap-2 flex-wrap mb-1">
-                <h3 className="font-semibold text-base truncate">
+              <div>
+                <h3 className="font-bold text-sm text-gray-900 leading-tight">
                   {patient.personalInfo.fullName}
                 </h3>
-                <Badge variant="outline" className="text-xs">
+                <p className="text-xs text-gray-500">
                   {patient.personalInfo.identification}
-                </Badge>
+                </p>
               </div>
 
-              {/* Info Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-muted-foreground">
-                {/* Age and Gender */}
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-3.5 w-3.5" />
-                  <span>{patient.personalInfo.age} años</span>
-                  <Badge
-                    className={`text-xs ${getGenderBadgeColor(
-                      patient.personalInfo.gender
-                    )}`}
-                  >
-                    {patient.personalInfo.gender}
-                  </Badge>
+              {/* Quick Info Row */}
+              <div className="flex flex-wrap gap-3 text-xs mt-1.5">
+                <div>
+                  <span className="text-gray-500">Edad</span>
+                  <p className="font-semibold text-gray-900">{patient.personalInfo.age}</p>
                 </div>
-
-                {/* Phone */}
-                <div className="flex items-center gap-2">
-                  <Phone className="h-3.5 w-3.5" />
-                  <span>{patient.personalInfo.telephone}</span>
+                <div>
+                  <span className="text-gray-500">Teléfono</span>
+                  <p className="font-semibold text-gray-900">{patient.personalInfo.telephone}</p>
                 </div>
-
-                {/* Birth Date */}
-                <div className="flex items-center gap-2">
-                  <FileText className="h-3.5 w-3.5" />
-                  <span>
-                    Nacimiento: {formatDate(patient.personalInfo.birthDate)}
-                  </span>
-                </div>
-
-                {/* Education Level */}
-                <div className="flex items-center gap-2">
-                  <FileText className="h-3.5 w-3.5" />
-                  <span className="capitalize">
-                    {patient.personalInfo.educationLevel}
-                  </span>
+                <div>
+                  <span className="text-gray-500">Nacimiento</span>
+                  <p className="font-semibold text-gray-900">
+                    {formatDate(patient.personalInfo.birthDate)}
+                  </p>
                 </div>
               </div>
 
-              {/* EPS Info */}
-              <div className="mt-2">
-                <Badge variant="secondary" className="text-xs">
+              {/* EPS and Gender Badges */}
+              <div className="flex items-center gap-2 mt-2 flex-wrap">
+                <Badge className="bg-gray-900 text-white text-xs font-medium hover:bg-gray-900">
                   {patient.eps.entity}
+                </Badge>
+                <Badge
+                  className={`text-xs font-medium ${getGenderBadgeColor(
+                    patient.personalInfo.gender
+                  )}`}
+                >
+                  {patient.personalInfo.gender}
                 </Badge>
               </div>
             </div>
@@ -141,24 +128,23 @@ export function PatientCard({
                 e.stopPropagation();
                 onEditPatient(patient);
               }}
-              className="flex items-center gap-1 flex-1 sm:flex-none"
+              className="flex items-center gap-1 flex-1 sm:flex-none border-gray-200 hover:bg-gray-50 text-gray-700 h-8 px-2.5 text-xs"
               disabled={isDeleting}
             >
               <Edit className="h-3.5 w-3.5" />
-              <span className="text-xs">Editar</span>
+              Editar
             </Button>
-
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={(e) => e.stopPropagation()}
-                  className="flex items-center gap-1 flex-1 sm:flex-none text-destructive hover:text-destructive"
+                  className="flex items-center gap-1 flex-1 sm:flex-none border-red-200 hover:bg-red-50 text-red-600 hover:text-red-700 h-8 px-2.5 text-xs"
                   disabled={isDeleting}
                 >
                   <Trash2 className="h-3.5 w-3.5" />
-                  <span className="text-xs">Eliminar</span>
+                  Eliminar
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent onClick={(e) => e.stopPropagation()}>
@@ -209,10 +195,10 @@ export function PatientCard({
                 e.stopPropagation();
                 onPatientSelect(patient);
               }}
-              className="flex items-center gap-1 flex-1 sm:flex-none"
+              className="flex items-center gap-1 flex-1 sm:flex-none bg-primary hover:bg-primary/90 h-8 px-2.5 text-xs font-medium"
               disabled={isDeleting}
             >
-              <span className="text-xs">Ver Detalles</span>
+              Ver Detalles
             </Button>
           </div>
         </div>

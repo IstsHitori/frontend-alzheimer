@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Patient } from "@/features/patient/types/patient.types";
-import { Search, Filter, UserPlus, X } from "lucide-react";
+import { Search, Filter, UserPlus, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { PatientCard } from ".";
 import { useState, useMemo } from "react";
 
@@ -27,6 +27,8 @@ export function PatientsTab({
 }: PatientsTabProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [genderFilter, setGenderFilter] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   // Filtrar pacientes por búsqueda y género
   const filteredPatients = useMemo(() => {
@@ -48,13 +50,29 @@ export function PatientsTab({
     });
   }, [patients, searchTerm, genderFilter]);
 
+  // Calcular paginación
+  const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedPatients = filteredPatients.slice(startIndex, endIndex);
+
   const handleClearSearch = () => {
     setSearchTerm("");
+    setCurrentPage(1);
   };
 
   const handleClearFilters = () => {
     setSearchTerm("");
     setGenderFilter("all");
+    setCurrentPage(1);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
   const hasActiveFilters = searchTerm !== "" || genderFilter !== "all";
@@ -130,8 +148,8 @@ export function PatientsTab({
 
       {/* Patient Cards */}
       <div className="grid gap-3">
-        {filteredPatients.length > 0 ? (
-          filteredPatients.map((patient) => (
+        {paginatedPatients.length > 0 ? (
+          paginatedPatients.map((patient) => (
             <PatientCard
               key={patient.id}
               patient={patient}
@@ -149,6 +167,38 @@ export function PatientsTab({
           </div>
         )}
       </div>
+
+      {/* Pagination */}
+      {filteredPatients.length > 0 && (
+        <div className="flex items-center justify-between bg-white border border-gray-200 rounded-lg p-4">
+          <div className="text-sm text-gray-600">
+            Página <span className="font-semibold">{currentPage}</span> de{" "}
+            <span className="font-semibold">{totalPages}</span> (
+            <span className="font-semibold">{filteredPatients.length}</span>{" "}
+            paciente{filteredPatients.length !== 1 ? "s" : ""})
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              className="h-8 w-8 p-0 border-gray-200 hover:bg-gray-100"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              className="h-8 w-8 p-0 border-gray-200 hover:bg-gray-100"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
