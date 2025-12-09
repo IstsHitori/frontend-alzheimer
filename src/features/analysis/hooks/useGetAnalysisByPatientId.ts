@@ -9,9 +9,10 @@ type UseGetAnalysisByPatientIdType = {
 export default function useGetAnalysisByPatientId({
   patientId,
 }: UseGetAnalysisByPatientIdType) {
-  const { isFetching, data } = useQuery({
-    queryKey: ["patient-analysisa", patientId],
+  const { isFetching, isError, data, error } = useQuery({
+    queryKey: ["patient-analysis", patientId],
     queryFn: () => analysisApi.getAnalysisByPatientId(patientId),
+    staleTime: 10 * 60 * 1000,
   });
-  return { isFetching, data };
+  return { isFetching, isError, data, error };
 }
