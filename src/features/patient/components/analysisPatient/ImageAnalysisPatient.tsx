@@ -2,7 +2,7 @@ import type { PatientImageAnalysis } from "@/features/analysis/types";
 import { formatDate } from "../../helpers";
 import type { Dispatch } from "react";
 import { Button } from "@/components/ui/button";
-import { Download, Eye } from "lucide-react";
+import { Eye } from "lucide-react";
 import { ProbabilyItem } from ".";
 import { useGetProbability } from "../../hooks/useGetProbaility";
 
@@ -123,14 +123,6 @@ export function ImageAnalysisPatient({
               >
                 <Eye className="h-4 w-4 mr-2" />
                 Ver Imagen Completa
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                className="text-gray-700 border-gray-300 hover:bg-gray-50"
-              >
-                <Download className="h-4 w-4 mr-2" />
-                Exportar
               </Button>
             </div>
           </div>

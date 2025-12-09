@@ -21,7 +21,9 @@ export class AnalysisApi {
     }
   }
 
-  async deleteOneAnalysis(analysisId: string): Promise<string> {
+  async deleteOneAnalysisById(
+    analysisId: PatientAnalysis["id"]
+  ): Promise<string> {
     try {
       return await fetchAndValidateSchema(
         () => api.delete(`/analysis/${analysisId}`),

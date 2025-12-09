@@ -1,10 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import type { PatientAnalysis } from "@/features/analysis/types";
-import { Brain, Badge, Download, Trash2 } from "lucide-react";
+import { Brain, Badge, Trash2, AlertTriangle } from "lucide-react";
 import type { Dispatch } from "react";
 import { formatDate } from "../../helpers";
 import { ImageAnalysisPatient } from ".";
+import { useDeleteAnalysisById } from "@/features/analysis/hooks";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type SelectedImageProps = {
   url: string;
@@ -20,6 +32,8 @@ export function AnalysisCardPatient({
   analysis,
   setSelectedImage,
 }: AnalysisCardPatientProps) {
+  const { mutate } = useDeleteAnalysisById();
+  const handleDeleteAnalysis = () => mutate(analysis.id);
   return (
     <Card className="border border-gray-200 shadow-sm overflow-hidden bg-white">
       {/* Header compacto */}
@@ -65,21 +79,47 @@ export function AnalysisCardPatient({
 
       {/* Footer minimalista */}
       <div className="border-t border-gray-100 bg-gray-50 px-4 sm:px-6 py-3 flex justify-end gap-2">
-        <Button
-          size="sm"
-          variant="outline"
-          className="text-gray-600 border-gray-300 text-xs h-8"
-        >
-          <Download className="h-3.5 w-3.5 mr-1" />
-          Descargar
-        </Button>
-        <Button
-          size="sm"
-          className="bg-red-600 hover:bg-red-700 text-white text-xs h-8"
-        >
-          <Trash2 className="h-3.5 w-3.5 mr-1" />
-          Eliminar
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              size="sm"
+              className="bg-red-600 hover:bg-red-700 text-white text-xs h-8"
+            >
+              <Trash2 className="h-3.5 w-3.5 mr-1" />
+              Eliminar
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle className="flex items-center gap-2">
+                <AlertTriangle className="h-5 w-5 text-red-600" />
+                ¿Estás seguro de eliminar este análisis?
+              </AlertDialogTitle>
+              <AlertDialogDescription className="text-gray-600">
+                Esta acción no se puede deshacer. Se eliminarán permanentemente
+                todas las{" "}
+                <span className="font-semibold text-gray-900">
+                  {analysis.imageAnalysis.length}{" "}
+                  {analysis.imageAnalysis.length === 1
+                    ? "imagen analizada"
+                    : "imágenes analizadas"}
+                </span>{" "}
+                de este paciente asociadas al análisis #{analysis.id}.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="text-gray-700">
+                Cancelar
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleDeleteAnalysis}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
+                Eliminar análisis
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </Card>
   );
