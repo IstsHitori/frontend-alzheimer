@@ -4,7 +4,7 @@ import type { Patient } from "../../types";
 type CognitiveEvaPatientProps = {
   cognitiveEvaluation: Patient["cognitiveEvaluation"];
 };
-export default function CognitiveEvaPatient({
+export function CognitiveEvaPatient({
   cognitiveEvaluation,
 }: CognitiveEvaPatientProps) {
   return (
