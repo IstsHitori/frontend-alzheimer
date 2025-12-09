@@ -6,9 +6,11 @@ import type { LoginPayload } from "../types/auth.types";
 import { loginPayloadSchema } from "../schemas/auth.schema";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./useAuth";
 
 export const useLoginForm = () => {
   const navigate = useNavigate();
+  const { setAuthenticated } = useAuth();
 
   const defaultValues: LoginPayload = {
     userName: "",
@@ -22,6 +24,7 @@ export const useLoginForm = () => {
     defaultValues,
     resolver: zodResolver(loginPayloadSchema),
   });
+
   const { mutate, isPending } = useMutation({
     mutationFn: authApi.login,
     onError: (error) => {
@@ -34,6 +37,7 @@ export const useLoginForm = () => {
     },
     onSuccess: (data) => {
       localStorage.setItem("authToken", data);
+      setAuthenticated(true);
       navigate("/app/home", { replace: true });
     },
   });

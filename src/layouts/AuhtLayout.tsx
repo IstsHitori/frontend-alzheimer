@@ -2,7 +2,6 @@ import { useAuth } from "@/features/auth/hooks";
 import { Navigate, Outlet } from "react-router-dom";
 export function AuhtLayout() {
   const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated);
 
   if (isAuthenticated) {
     return <Navigate to={"/app/home"} replace={true} />;

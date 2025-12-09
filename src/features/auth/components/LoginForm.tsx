@@ -18,7 +18,7 @@ export function LoginForm() {
   const { handleSubmit, register, mutate, errors, isPending } = useLoginForm();
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit: SubmitHandler<LoginPayload> = async (loginData) => {
+  const onSubmit: SubmitHandler<LoginPayload> = (loginData) => {
     mutate(loginData);
   };
 

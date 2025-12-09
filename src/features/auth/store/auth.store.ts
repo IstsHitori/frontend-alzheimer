@@ -9,17 +9,19 @@ interface AuthStore {
 interface AuthActions {
   logout: () => void;
   setProfile: (profile: Profile) => void;
+  setAuthenticated: (isAuthenticated: boolean) => void;
 }
 
 export const useAuthStore = create<AuthStore & AuthActions>((set) => ({
   profile: {} as Profile,
   isAuthenticated: !!localStorage.getItem("authToken"),
   logout: () => {
-    localStorage.removeItem("authStore");
+    localStorage.removeItem("authToken");
     set({
       profile: {} as Profile,
       isAuthenticated: false,
     });
   },
   setProfile: (profile) => set({ profile }),
+  setAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
 }));
