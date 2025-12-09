@@ -4,6 +4,7 @@ export * from './useCreatePatientForm';
 export * from './useDeletePatient';
 export * from './useGetCatalog';
 export * from './useGetPatients';
+export * from './useGetProbaility';
 export * from './usePatientSelection';
 export * from './useUpdatePatient';
 export * from './useUpdatePatientForm';
