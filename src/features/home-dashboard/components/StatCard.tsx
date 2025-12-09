@@ -24,31 +24,25 @@ export function StatCard({
 }: StatCardProps) {
   return (
     <Card
-      className={`medical-card hover:scale-105 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 animate-slide-up${animationDelay} group`}
+      className={`hover:scale-105 hover:shadow-lg transition-all duration-300 animate-slide-up${animationDelay} group border border-gray-200 bg-white rounded-lg`}
     >
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
-          <div>
+          <div className="flex-1">
             <p
-              className={`text-sm text-muted-foreground mb-1 group-hover:${textColor} transition-colors`}
+              className={`text-sm text-gray-500 mb-2 group-hover:text-primary transition-colors font-medium`}
             >
               {title}
             </p>
+            <p className={`text-4xl font-bold ${textColor}`}>{value}</p>
             <p
-              className={`text-3xl font-bold ${textColor} animate-number-count`}
+              className={`text-xs ${subtitleColor} flex items-center gap-1 mt-2`}
             >
-              {value}
-            </p>
-            <p
-              className={`text-xs ${subtitleColor} flex items-center gap-1 mt-1 animate-slide-up-delay`}
-            >
-              <TrendingUp className="h-3 w-3 animate-bounce-subtle" />
+              <TrendingUp className="h-3 w-3" />
               {subtitle}
             </p>
           </div>
-          <div
-            className={`p-3 ${bgColor} rounded-xl group-hover:${bgColor}/20 group-hover:rotate-12 transition-all duration-300`}
-          >
+          <div className={`p-3 ${bgColor} rounded-lg ml-4 shrink-0`}>
             {icon}
           </div>
         </div>

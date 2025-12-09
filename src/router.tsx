@@ -4,6 +4,7 @@ import { LoginForm } from "./features/auth/components/LoginForm";
 import HomePage from "./features/home-dashboard/pages/HomePage";
 import AdministrationPage from "./features/administration/pages/AdministrationPage";
 import MedicDashboardPage from "./features/medic-dashboard/pages/MedicDashboardPage";
+import AnalysisPage from "./features/analysis/pages/AnalysisPage";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: "medical-dashboard",
         element: <MedicDashboardPage />,
+      },
+      {
+        path: "analysis",
+        element: <AnalysisPage />,
       },
     ],
   },

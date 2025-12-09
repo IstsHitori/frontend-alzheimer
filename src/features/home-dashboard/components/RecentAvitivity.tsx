@@ -10,10 +10,10 @@ interface RecentActivityProps {
 
 export function RecentActivity({ isLoading, activities }: RecentActivityProps) {
   return (
-    <Card className="medical-card animate-slide-up-delay-4 hover:shadow-xl transition-all duration-300">
+    <Card className="border border-gray-200 bg-white rounded-lg hover:shadow-lg transition-all duration-300 animate-slide-up-delay-4">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 animate-slide-right">
-          <Activity_icon className="h-5 w-5 text-primary animate-pulse" />
+        <CardTitle className="flex items-center gap-2 text-gray-900">
+          <Activity_icon className="h-5 w-5 text-primary" />
           Actividad Reciente
         </CardTitle>
       </CardHeader>

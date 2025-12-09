@@ -73,24 +73,24 @@ export function NavigationMenu() {
       )}
 
       <nav
-        className={`fixed top-0 left-0 h-full bg-background/98 backdrop-blur-sm border-r border-border z-40 transition-all duration-300 ${
+        className={`fixed top-0 left-0 h-full bg-white border-r border-gray-200 z-40 transition-all duration-300 ${
           isMobileMenuOpen
             ? "translate-x-0"
             : "-translate-x-full lg:translate-x-0"
         } ${isCollapsed ? "w-16" : "w-64"}`}
       >
-        <div className="p-3">
+        <div className="p-4">
           <div className="flex items-center justify-between mb-6">
             {!isCollapsed && (
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 bg-primary/10 rounded-lg">
-                  <Brain className="h-5 w-5 md:h-6 md:w-6 text-primary" />
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-linear-to-br from-primary to-blue-500 rounded-lg">
+                  <Brain className="h-5 w-5 md:h-6 md:w-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-base md:text-lg font-bold text-foreground">
+                  <h1 className="text-base md:text-lg font-bold text-gray-900">
                     NeuroAnalyzer
                   </h1>
-                  <p className="text-xs text-muted-foreground hidden sm:block">
+                  <p className="text-xs text-gray-600 hidden sm:block">
                     Análisis de Alzheimer
                   </p>
                 </div>
@@ -100,7 +100,7 @@ export function NavigationMenu() {
               variant="ghost"
               size="sm"
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="h-8 w-8 p-0 hidden lg:flex"
+              className="h-8 w-8 p-0 hidden lg:flex hover:bg-gray-100"
             >
               {isCollapsed ? (
                 <Menu className="h-4 w-4" />
@@ -112,24 +112,24 @@ export function NavigationMenu() {
               variant="ghost"
               size="sm"
               onClick={handleMobileMenuClose}
-              className="h-8 w-8 p-0 lg:hidden"
+              className="h-8 w-8 p-0 lg:hidden hover:bg-gray-100"
             >
               <X className="h-4 w-4" />
             </Button>
           </div>
 
           {!isCollapsed && (
-            <Card className="mb-4 bg-linear-to-r from-primary/5 to-secondary/5">
-              <CardContent className="p-3">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 bg-primary/10 rounded-full">
-                    <Stethoscope className="h-4 w-4 text-primary" />
+            <Card className="mb-6 bg-linear-to-r from-blue-50 to-blue-100 border-blue-200">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-primary/20 rounded-full">
+                    <Stethoscope className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-foreground">
+                    <p className="text-sm font-semibold text-gray-900">
                       Dr. {profile.name}
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-gray-600">
                       {profile.role === "admin" ? "Admin" : "Médico"}
                     </p>
                   </div>
@@ -151,29 +151,28 @@ export function NavigationMenu() {
                     to={item.path}
                     onClick={handleMobileMenuClose}
                     className={`
-                                            w-full p-2 rounded-lg text-left transition-all duration-200 block
-                                            hover:scale-105 hover:shadow-sm
+                                            w-full p-3 rounded-lg text-left transition-all duration-200 flex items-center
                                             ${
                                               isActive
-                                                ? "bg-primary/10 border border-primary/20"
-                                                : "hover:bg-muted/50"
+                                                ? "bg-primary/15 border border-primary/30 shadow-sm"
+                                                : "hover:bg-gray-100"
                                             }
                                             ${
                                               isCollapsed
-                                                ? "flex justify-center"
-                                                : "flex items-center gap-2"
+                                                ? "justify-center"
+                                                : "gap-3"
                                             }
                                         `}
                     title={isCollapsed ? item.label : undefined}
                   >
                     <div
-                      className={`p-1.5 rounded-lg ${
-                        isActive ? item.bgColor : "bg-muted/30"
+                      className={`p-2 rounded-md ${
+                        isActive ? "bg-primary/20" : "bg-gray-100"
                       }`}
                     >
                       <Icon
-                        className={`h-4 w-4 ${
-                          isActive ? item.color : "text-muted-foreground"
+                        className={`h-5 w-5 ${
+                          isActive ? "text-primary" : "text-gray-600"
                         }`}
                       />
                     </div>
@@ -182,13 +181,13 @@ export function NavigationMenu() {
                         <p
                           className={`text-sm font-medium ${
                             isActive
-                              ? "text-foreground"
-                              : "text-muted-foreground"
+                              ? "text-gray-900"
+                              : "text-gray-700"
                           }`}
                         >
                           {item.label}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-gray-600">
                           {item.description}
                         </p>
                       </div>
@@ -200,7 +199,7 @@ export function NavigationMenu() {
 
           <div className="space-y-2">
             {!isCollapsed && (
-              <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+              <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wider px-2">
                 Acciones
               </h3>
             )}
@@ -208,14 +207,14 @@ export function NavigationMenu() {
             <Link
               to="/app/analysis"
               onClick={handleMobileMenuClose}
-              className={`${
+              className={`flex items-center bg-primary/10 hover:bg-primary/20 border border-primary/20 rounded-lg text-sm font-medium text-primary transition-colors ${
                 isCollapsed
-                  ? "w-full p-2 h-10 flex items-center justify-center"
-                  : "w-full justify-start gap-2 flex items-center"
-              } bg-primary/5 hover:bg-primary/10 border border-input rounded-md px-3 py-2 text-sm`}
+                  ? "w-full p-2 h-10 justify-center"
+                  : "w-full justify-start gap-3 px-3 py-2"
+              }`}
               title={isCollapsed ? "Nuevo Análisis" : undefined}
             >
-              <Brain className="h-4 w-4" />
+              <Brain className="h-5 w-5 shrink-0" />
               {!isCollapsed && <span>Nuevo Análisis</span>}
             </Link>
 
@@ -223,12 +222,12 @@ export function NavigationMenu() {
               variant="outline"
               size="sm"
               onClick={logout}
-              className={`${
-                isCollapsed ? "w-full p-2 h-10" : "w-full justify-start gap-2"
-              } text-red-600 hover:text-red-700 hover:bg-red-50 bg-transparent`}
+              className={`flex items-center text-red-600 hover:text-red-700 hover:bg-red-50 bg-transparent border-red-200 hover:border-red-300 ${
+                isCollapsed ? "w-full p-2 h-10 justify-center" : "w-full justify-start gap-3"
+              }`}
               title={isCollapsed ? "Cerrar Sesión" : undefined}
             >
-              <LogOut className="h-4 w-4" />
+              <LogOut className="h-5 w-5 shrink-0" />
               {!isCollapsed && "Cerrar Sesión"}
             </Button>
           </div>

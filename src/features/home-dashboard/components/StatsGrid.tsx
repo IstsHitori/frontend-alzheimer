@@ -41,10 +41,10 @@ export function StatsGrid({ isLoading, stats }: StatsGridProps) {
         value={`${stats.IAPresicion ?? 0}%`}
         subtitle="Excelente"
         icon={
-          <BarChart3 className="h-6 w-6 text-secondary group-hover:scale-110 transition-transform" />
+          <BarChart3 className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
         }
-        bgColor="bg-secondary/10"
-        textColor="text-secondary"
+        bgColor="bg-primary/10"
+        textColor="text-primary"
         subtitleColor="text-green-600"
         animationDelay="-delay"
       />
@@ -54,10 +54,10 @@ export function StatsGrid({ isLoading, stats }: StatsGridProps) {
         value={stats.patients ?? 0}
         subtitle="Activos"
         icon={
-          <Stethoscope className="h-6 w-6 text-accent group-hover:scale-110 transition-transform" />
+          <Stethoscope className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
         }
-        bgColor="bg-accent/10"
-        textColor="text-accent"
+        bgColor="bg-primary/10"
+        textColor="text-primary"
         subtitleColor="text-blue-600"
         animationDelay="-delay-2"
       />
