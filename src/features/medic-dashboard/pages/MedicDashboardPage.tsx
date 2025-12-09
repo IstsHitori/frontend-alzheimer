@@ -134,7 +134,7 @@ export default function MedicDashboardPage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6 pb-6">
       <DashboardHeader
         title="Dashboard Médico"
         subtitle="Análisis y estadísticas de diagnósticos"
@@ -145,20 +145,22 @@ export default function MedicDashboardPage() {
         onValueChange={setActiveTab}
         className="space-y-4"
       >
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-1">
-          <TabsTrigger value="overview" className="text-xs sm:text-sm">
-            Resumen
-          </TabsTrigger>
-          <TabsTrigger value="patients" className="text-xs sm:text-sm">
-            Pacientes
-          </TabsTrigger>
-          <TabsTrigger value="analytics" className="text-xs sm:text-sm">
-            Análisis
-          </TabsTrigger>
-          <TabsTrigger value="reports" className="text-xs sm:text-sm">
-            Reportes
-          </TabsTrigger>
-        </TabsList>
+        <div className="bg-white border border-gray-200 rounded-lg p-1 inline-flex gap-1">
+          <TabsList className="grid grid-cols-4 gap-1 bg-transparent p-0">
+            <TabsTrigger value="overview" className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors">
+              Resumen
+            </TabsTrigger>
+            <TabsTrigger value="patients" className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors">
+              Pacientes
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors">
+              Análisis
+            </TabsTrigger>
+            <TabsTrigger value="reports" className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors">
+              Reportes
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         {/* Overview Tab - Liskov Substitution Principle */}
         <TabsContent value="overview">
