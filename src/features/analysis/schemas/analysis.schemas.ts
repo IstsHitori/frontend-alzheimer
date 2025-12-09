@@ -15,4 +15,6 @@ export const patientAnalysis = z.object({
   createdAt: z.string(),
 });
 
+export const deleteAnalysisPatientResponse = z.string();
+
 export const arrayPatientAnalysis = z.array(patientAnalysis);

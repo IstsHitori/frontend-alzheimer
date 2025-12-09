@@ -6,4 +6,5 @@ export * from './catalog-api';
 export * from './home-stats-api';
 export * from './medical-dashboard-api';
 export * from './patient-api';
+export * from './upload-image-api';
 export * from './user-api';
