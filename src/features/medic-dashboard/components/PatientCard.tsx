@@ -1,8 +1,21 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { User, Calendar, Phone, FileText, Edit } from "lucide-react";
+import { User, Calendar, Phone, FileText, Edit, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import type { Patient } from "@/features/patient/types/patient.types";
+import useDeletePatient from "@/features/patient/hooks/useDeletePatient";
+import { useState } from "react";
 
 interface PatientCardProps {
   patient: Patient;
@@ -15,6 +28,17 @@ export function PatientCard({
   onPatientSelect,
   onEditPatient,
 }: PatientCardProps) {
+  const { mutate: deletePatient } = useDeletePatient();
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = () => {
+    setIsDeleting(true);
+    deletePatient(patient.id, {
+      onSettled: () => {
+        setIsDeleting(false);
+      },
+    });
+  };
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("es-ES", {
@@ -118,10 +142,66 @@ export function PatientCard({
                 onEditPatient(patient);
               }}
               className="flex items-center gap-1 flex-1 sm:flex-none"
+              disabled={isDeleting}
             >
               <Edit className="h-3.5 w-3.5" />
               <span className="text-xs">Editar</span>
             </Button>
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center gap-1 flex-1 sm:flex-none text-destructive hover:text-destructive"
+                  disabled={isDeleting}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                  <span className="text-xs">Eliminar</span>
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>¿Está seguro de eliminar este paciente?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Al eliminar al paciente <strong>{patient.personalInfo.fullName}</strong>, se eliminará toda la información asociada incluyendo:
+                    <ul className="list-disc list-inside mt-2 space-y-1">
+                      <li>Datos personales y de contacto</li>
+                      <li>Información médica y condiciones</li>
+                      <li>Medicamentos actuales</li>
+                      <li>Antecedentes familiares</li>
+                      <li>Evaluaciones cognitivas</li>
+                    </ul>
+                    <p className="mt-3 font-semibold text-destructive">
+                      Esta acción no se puede deshacer.
+                    </p>
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel disabled={isDeleting}>
+                    Cancelar
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete();
+                    }}
+                    disabled={isDeleting}
+                    className="bg-destructive hover:bg-destructive/90"
+                  >
+                    {isDeleting ? (
+                      <>
+                        <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                        Eliminando...
+                      </>
+                    ) : (
+                      "Sí, eliminar paciente"
+                    )}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
 
             <Button
               size="sm"
@@ -130,6 +210,7 @@ export function PatientCard({
                 onPatientSelect(patient);
               }}
               className="flex items-center gap-1 flex-1 sm:flex-none"
+              disabled={isDeleting}
             >
               <span className="text-xs">Ver Detalles</span>
             </Button>

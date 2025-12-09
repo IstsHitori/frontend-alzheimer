@@ -1,6 +1,7 @@
 export * from './useCatalog';
 export * from './useCreatePatient';
 export * from './useCreatePatientForm';
+export * from './useDeletePatient';
 export * from './useGetCatalog';
 export * from './useGetPatients';
 export * from './usePatientSelection';
