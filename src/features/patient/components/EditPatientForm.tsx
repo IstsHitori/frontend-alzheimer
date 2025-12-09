@@ -83,32 +83,38 @@ export function EditPatientForm({
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-5xl mx-auto pb-8">
       {/* Header */}
-      <div className="flex items-center gap-4 mb-6">
-        <Button variant="outline" onClick={onBack} disabled={isUpdating}>
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Volver
-        </Button>
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">Editar Paciente</h2>
-          <p className="text-muted-foreground mt-1">
-            Actualice la información del paciente {patient.personalInfo.fullName}
-          </p>
+      <div className="bg-white border border-gray-200 rounded-lg p-6">
+        <div className="flex items-center gap-4">
+          <Button variant="outline" onClick={onBack} disabled={isUpdating} className="border-gray-200 hover:bg-gray-100">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Volver
+          </Button>
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Editar Paciente</h2>
+            <p className="text-gray-600 mt-1 text-sm">
+              Actualice la información del paciente {patient.personalInfo.fullName}
+            </p>
+          </div>
         </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Personal Info Card */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <User className="h-5 w-5 text-primary" />
-              <CardTitle>Información Personal</CardTitle>
+        <Card className="bg-white border border-gray-200">
+          <CardHeader className="pb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <User className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-lg text-gray-900">Información Personal</CardTitle>
+                <CardDescription className="text-gray-600 text-sm">
+                  Datos básicos de identificación del paciente
+                </CardDescription>
+              </div>
             </div>
-            <CardDescription>
-              Datos básicos de identificación del paciente
-            </CardDescription>
           </CardHeader>
           <CardContent>
             <FieldGroup className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -280,15 +286,19 @@ export function EditPatientForm({
         </Card>
 
         {/* Health Metrics Card */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Activity className="h-5 w-5 text-primary" />
-              <CardTitle>Métricas de Salud</CardTitle>
+        <Card className="bg-white border border-gray-200">
+          <CardHeader className="pb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Activity className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-lg text-gray-900">Métricas de Salud</CardTitle>
+                <CardDescription className="text-gray-600 text-sm">
+                  Medidas físicas y signos vitales del paciente
+                </CardDescription>
+              </div>
             </div>
-            <CardDescription>
-              Medidas físicas y signos vitales del paciente
-            </CardDescription>
           </CardHeader>
           <CardContent>
             <FieldGroup className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -357,15 +367,19 @@ export function EditPatientForm({
         </Card>
 
         {/* Medical Info Card */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Stethoscope className="h-5 w-5 text-primary" />
-              <CardTitle>Información Médica</CardTitle>
+        <Card className="bg-white border border-gray-200">
+          <CardHeader className="pb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Stethoscope className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-lg text-gray-900">Información Médica</CardTitle>
+                <CardDescription className="text-gray-600 text-sm">
+                  EPS, condiciones médicas, medicamentos y antecedentes familiares
+                </CardDescription>
+              </div>
             </div>
-            <CardDescription>
-              EPS, condiciones médicas, medicamentos y antecedentes familiares
-            </CardDescription>
           </CardHeader>
           <CardContent>
             <FieldGroup className="space-y-6">
@@ -519,15 +533,19 @@ export function EditPatientForm({
         </Card>
 
         {/* Current Symptoms Card */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <ClipboardList className="h-5 w-5 text-primary" />
-              <CardTitle>Síntomas Actuales</CardTitle>
+        <Card className="bg-white border border-gray-200">
+          <CardHeader className="pb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <ClipboardList className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-lg text-gray-900">Síntomas Actuales</CardTitle>
+                <CardDescription className="text-gray-600 text-sm">
+                  Marque los síntomas que presenta actualmente el paciente
+                </CardDescription>
+              </div>
             </div>
-            <CardDescription>
-              Marque los síntomas que presenta actualmente el paciente
-            </CardDescription>
           </CardHeader>
           <CardContent>
             <FieldGroup className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -661,19 +679,20 @@ export function EditPatientForm({
         </Card>
 
         {/* Submit Button */}
-        <div className="flex justify-end gap-4 pt-4">
+        <div className="flex justify-end gap-3 pt-6">
           <Button 
             type="button" 
             variant="outline" 
             onClick={onBack} 
             disabled={isUpdating}
+            className="border-gray-200 hover:bg-gray-100"
           >
             Cancelar
           </Button>
           <Button 
             type="submit" 
             disabled={isUpdating} 
-            className="min-w-[200px]"
+            className="min-w-[200px] bg-primary hover:bg-primary/90"
           >
             {isUpdating ? (
               <>

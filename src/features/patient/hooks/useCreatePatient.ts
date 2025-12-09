@@ -5,7 +5,7 @@ import type { CreatePatient } from "../types";
 import { handleErrorToast } from "@/shared/helpers/error-handler";
 import { toast } from "sonner";
 
-export function useCreatePatient() {
+export function useCreatePatient(onSuccess?: () => void) {
   const queryClient = useQueryClient();
 
   const [isCreating, setIscreating] = useState(false);
@@ -18,6 +18,7 @@ export function useCreatePatient() {
       queryClient.invalidateQueries({
         queryKey: ["patients"],
       });
+      onSuccess?.();
     },
     onError: (error) => handleErrorToast(error),
   });
