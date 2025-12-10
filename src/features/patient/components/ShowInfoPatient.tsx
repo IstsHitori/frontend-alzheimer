@@ -184,6 +184,7 @@ export const ShowInfoPatient = ({ patient, onBack }: ShowInfoPatientProps) => {
             <CognitiveEvaPatient
               cognitiveEvaluation={patient.cognitiveEvaluation}
               patientId={patient.id}
+              onBack={onBack}
             />
           </TabsContent>
         </Tabs>

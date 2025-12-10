@@ -21,11 +21,13 @@ import { toast } from "sonner";
 type CognitiveEvaPatientProps = {
   cognitiveEvaluation: Patient["cognitiveEvaluation"];
   patientId: Patient["id"];
+  onBack?: () => void;
 };
 
 export function CognitiveEvaPatient({
   cognitiveEvaluation,
   patientId,
+  onBack,
 }: CognitiveEvaPatientProps) {
   const [open, setOpen] = useState(false);
   const [mmse, setMmse] = useState(cognitiveEvaluation.mmse);
@@ -54,6 +56,10 @@ export function CognitiveEvaPatient({
       {
         onSuccess: () => {
           setOpen(false);
+          // Navegar de vuelta a la lista de pacientes
+          if (onBack) {
+            onBack();
+          }
         },
       }
     );
