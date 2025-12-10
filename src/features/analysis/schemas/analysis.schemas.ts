@@ -28,6 +28,27 @@ export const analyzePyload = z.object({
 
 export const deleteAnalysisPatientResponse = z.string();
 
-export const analyzeImageResponse = z.string();
+export const createAnalysisResponse = z.object({
+  id: z.number(),
+  user: userAnalysisSchema,
+  patient: z.object({
+    id: z.string(),
+    identification: z.string(),
+    telephone: z.string(),
+    fullName: z.string(),
+    birthDate: z.string(),
+    age: z.number(),
+    birthDays: z.number(),
+    weight: z.number(),
+    size: z.number(),
+    tension: z.number(),
+    gender: z.string(),
+    educationLevel: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+  }),
+  imageAnalysis: z.array(imageAnalysisSchema),
+  createdAt: z.string(),
+});
 
 export const arrayPatientAnalysis = z.array(patientAnalysis);

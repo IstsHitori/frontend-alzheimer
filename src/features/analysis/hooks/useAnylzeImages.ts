@@ -6,10 +6,12 @@ import { handleErrorToast } from "@/shared/helpers/error-handler";
 
 export default function useAnylzeImages() {
   const queryClient = useQueryClient();
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (payload: AnalyzePyload) => analysisApi.createAnalysis(payload),
     onSuccess: (data, { patientId }) => {
-      toast.success(data);
+      toast.success(
+        `Analisis del paciente ${data.patient.fullName} completado`
+      );
       queryClient.invalidateQueries({
         queryKey: ["patient-analysis", patientId],
       });
@@ -18,5 +20,5 @@ export default function useAnylzeImages() {
       handleErrorToast(error);
     },
   });
-  return { mutate };
+  return { mutate, isPending };
 }

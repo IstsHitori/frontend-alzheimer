@@ -1,9 +1,13 @@
-import type { AnalyzePyload, PatientAnalysis } from "@/features/analysis/types";
+import type {
+  AnalyzePyload,
+  CreateAnalysisRespnse,
+  PatientAnalysis,
+} from "@/features/analysis/types";
 import { fetchAndValidateSchema, handleAxiosError } from "@/shared/helpers";
 import { api, apiPython } from "./base-http";
 import type { Patient } from "@/features/patient/types/patient.types";
 import {
-  analyzeImageResponse,
+  createAnalysisResponse,
   arrayPatientAnalysis,
   deleteAnalysisPatientResponse,
 } from "@/features/analysis/schemas";
@@ -35,11 +39,13 @@ export class AnalysisApi {
     }
   }
 
-  async createAnalysis(analyzePyload: AnalyzePyload): Promise<string> {
+  async createAnalysis(
+    analyzePyload: AnalyzePyload
+  ): Promise<CreateAnalysisRespnse> {
     try {
       return await fetchAndValidateSchema(
         () => apiPython.post("/analyze", analyzePyload),
-        analyzeImageResponse
+        createAnalysisResponse
       );
     } catch (error) {
       handleAxiosError(error);
