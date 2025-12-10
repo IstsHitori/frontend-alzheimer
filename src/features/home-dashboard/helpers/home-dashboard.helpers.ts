@@ -5,19 +5,16 @@ export const getTimeAgo = (createdAt: string): string => {
   const now = new Date();
   const created = new Date(createdAt);
   const diffInMs = now.getTime() - created.getTime();
+
+  if (diffInMs < 0) {
+    return "justo ahora";
+  }
+
   const diffInSeconds = Math.floor(diffInMs / 1000);
   const diffInMinutes = Math.floor(diffInSeconds / 60);
   const diffInHours = Math.floor(diffInMinutes / 60);
   const diffInDays = Math.floor(diffInHours / 24);
-  const diffInMonths = Math.floor(diffInDays / 30);
-  const diffInYears = Math.floor(diffInDays / 365);
 
-  if (diffInYears > 0) {
-    return `hace ${diffInYears} ${diffInYears === 1 ? "año" : "años"}`;
-  }
-  if (diffInMonths > 0) {
-    return `hace ${diffInMonths} ${diffInMonths === 1 ? "mes" : "meses"}`;
-  }
   if (diffInDays > 0) {
     return `hace ${diffInDays} ${diffInDays === 1 ? "día" : "días"}`;
   }
@@ -34,6 +31,7 @@ export const getTimeAgo = (createdAt: string): string => {
       diffInSeconds === 1 ? "segundo" : "segundos"
     }`;
   }
+
   return "justo ahora";
 };
 

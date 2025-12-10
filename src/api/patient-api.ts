@@ -1,6 +1,7 @@
 import type {
   CreatePatient,
   Patient,
+  UpdateCognitiveEvaluation,
   UpdatePatient,
 } from "@/features/patient/types/patient.types";
 import { fetchAndValidateSchema, handleAxiosError } from "@/shared/helpers";
@@ -48,6 +49,20 @@ class PatientApi {
     try {
       return await fetchAndValidateSchema(
         () => api.delete(`/patient/${patientId}`),
+        crudPatientResponseSchema
+      );
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+
+  async updateCognitiveEvaluation(
+    newEvaluation: UpdateCognitiveEvaluation,
+    patientId: Patient["id"]
+  ): Promise<string> {
+    try {
+      return await fetchAndValidateSchema(
+        () => api.patch(`/patient/evaluation/${patientId}`, newEvaluation),
         crudPatientResponseSchema
       );
     } catch (error) {

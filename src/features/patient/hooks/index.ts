@@ -6,5 +6,6 @@ export * from './useGetCatalog';
 export * from './useGetPatients';
 export * from './useGetProbaility';
 export * from './usePatientSelection';
+export * from './useUpdateCognitiveEva';
 export * from './useUpdatePatient';
 export * from './useUpdatePatientForm';

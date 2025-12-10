@@ -26,7 +26,6 @@ export function ImageAnalysisPatient({
   );
 
   const diagnosisDate = formatDate(imgAnalysis.image.createdAt, "2-digit");
-  console.log(imgAnalysis.diagnosis, primaryDiagnosis);
 
   return (
     <>

@@ -80,6 +80,11 @@ export const patientSchema = z.object({
   }),
 });
 
+export const updateCognitiveEvaluationSchema = z.object({
+  mmse: z.number(""),
+  moca: z.number(""),
+});
+
 export const crudPatientResponseSchema = z.string();
 
 export const arrayPatientSchema = z.array(patientSchema);
