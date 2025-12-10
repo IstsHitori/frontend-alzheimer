@@ -12,6 +12,8 @@ import {
   Loader2,
   Image as ImageIcon,
   Filter,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import useGetPatients from "@/features/patient/hooks/useGetPatients";
 import type { Patient } from "@/features/patient/types";
@@ -58,6 +60,8 @@ export default function AnalysisPage() {
     url: string;
     fileName: string;
   } | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   // Filtrar pacientes
   const filteredPatients = useMemo(() => {
@@ -78,6 +82,25 @@ export default function AnalysisPage() {
       return matchesSearch && matchesGender;
     });
   }, [patientsQuery.data, searchTerm, genderFilter]);
+
+  // Calcular paginación
+  const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
+  
+  // Ajustar currentPage si excede el totalPages después de filtrar
+  const effectiveCurrentPage = useMemo(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      // Si la página actual excede el total, ajustar
+      setTimeout(() => setCurrentPage(totalPages), 0);
+      return totalPages;
+    }
+    return currentPage;
+  }, [currentPage, totalPages]);
+
+  const paginatedPatients = useMemo(() => {
+    const startIndex = (effectiveCurrentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredPatients.slice(startIndex, endIndex);
+  }, [filteredPatients, effectiveCurrentPage]);
 
   // Manejar selección de archivos
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -198,7 +221,7 @@ export default function AnalysisPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-white p-6">
+    <div className="min-h-screen bg-linear-to-br from-white via-blue-50 to-white p-6">
       <div className="max-w-7xl mx-auto">
         {/* Mostrar resultados si existen */}
         {analysisResult ? (
@@ -382,7 +405,7 @@ export default function AnalysisPage() {
                           No se encontraron pacientes
                         </div>
                       ) : (
-                        filteredPatients.map((patient) => (
+                        paginatedPatients.map((patient) => (
                           <button
                             key={patient.id}
                             onClick={() => setSelectedPatient(patient)}
@@ -420,6 +443,54 @@ export default function AnalysisPage() {
                         ))
                       )}
                     </div>
+
+                    {/* Paginador */}
+                    {filteredPatients.length > itemsPerPage && (
+                      <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
+                        <p className="text-sm text-gray-600">
+                          Mostrando {(effectiveCurrentPage - 1) * itemsPerPage + 1} a{" "}
+                          {Math.min(effectiveCurrentPage * itemsPerPage, filteredPatients.length)} de{" "}
+                          {filteredPatients.length} pacientes
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setCurrentPage(effectiveCurrentPage - 1)}
+                            disabled={effectiveCurrentPage === 1}
+                            className="h-8"
+                          >
+                            <ChevronLeft className="h-4 w-4" />
+                          </Button>
+                          <div className="flex gap-1">
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                              <Button
+                                key={page}
+                                size="sm"
+                                variant={effectiveCurrentPage === page ? "default" : "outline"}
+                                onClick={() => setCurrentPage(page)}
+                                className={`h-8 w-8 p-0 ${
+                                  effectiveCurrentPage === page
+                                    ? "bg-blue-600 text-white hover:bg-blue-700"
+                                    : ""
+                                }`}
+                              >
+                                {page}
+                              </Button>
+                            ))}
+                          </div>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setCurrentPage(effectiveCurrentPage + 1)}
+                            disabled={effectiveCurrentPage === totalPages}
+                            className="h-8"
+                          >
+                            <ChevronRight className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
 
@@ -527,7 +598,7 @@ export default function AnalysisPage() {
 
               {/* Columna derecha: Estado e información */}
               <div className="space-y-6">
-                <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-white">
+                <Card className="border-0 shadow-lg bg-linear-to-br from-blue-50 to-white">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-blue-900">
                       <ImageIcon className="h-5 w-5" />

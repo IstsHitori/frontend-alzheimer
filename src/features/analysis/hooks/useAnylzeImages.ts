@@ -15,7 +15,11 @@ export default function useAnylzeImages() {
       queryClient.invalidateQueries({
         queryKey: ["patient-analysis", patientId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["medical-dashboard-stats"],
+      });
     },
+
     onError: (error) => {
       handleErrorToast(error);
     },
