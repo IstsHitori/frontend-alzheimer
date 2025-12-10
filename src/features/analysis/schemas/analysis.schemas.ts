@@ -15,6 +15,19 @@ export const patientAnalysis = z.object({
   createdAt: z.string(),
 });
 
+export const imageToAnalyze = z.object({
+  fileUrl: z.string(),
+  fileName: z.string(),
+});
+
+export const analyzePyload = z.object({
+  patientId: z.string(),
+  token: z.string(),
+  images: z.array(imageToAnalyze),
+});
+
 export const deleteAnalysisPatientResponse = z.string();
+
+export const analyzeImageResponse = z.string();
 
 export const arrayPatientAnalysis = z.array(patientAnalysis);

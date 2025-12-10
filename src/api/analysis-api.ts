@@ -1,8 +1,9 @@
-import type { PatientAnalysis } from "@/features/analysis/types";
+import type { AnalyzePyload, PatientAnalysis } from "@/features/analysis/types";
 import { fetchAndValidateSchema, handleAxiosError } from "@/shared/helpers";
-import { api } from "./base-http";
+import { api, apiPython } from "./base-http";
 import type { Patient } from "@/features/patient/types/patient.types";
 import {
+  analyzeImageResponse,
   arrayPatientAnalysis,
   deleteAnalysisPatientResponse,
 } from "@/features/analysis/schemas";
@@ -28,6 +29,17 @@ export class AnalysisApi {
       return await fetchAndValidateSchema(
         () => api.delete(`/analysis/${analysisId}`),
         deleteAnalysisPatientResponse
+      );
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+
+  async createAnalysis(analyzePyload: AnalyzePyload): Promise<string> {
+    try {
+      return await fetchAndValidateSchema(
+        () => apiPython.post("/analyze", analyzePyload),
+        analyzeImageResponse
       );
     } catch (error) {
       handleAxiosError(error);

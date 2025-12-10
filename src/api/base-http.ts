@@ -9,6 +9,14 @@ export const api: AxiosInstance = axios.create({
   },
 });
 
+export const apiPython: AxiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_API_IA_BACKEND,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+
 api.interceptors.request.use((config) => {
   const PUBLIC_PATHS = ["/auth/login"];
 
@@ -24,3 +32,4 @@ api.interceptors.request.use((config) => {
 
   return config;
 });
+

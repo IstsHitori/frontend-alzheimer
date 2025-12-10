@@ -1,11 +1,12 @@
 import { uploadImageApi } from "@/api";
 import { handleErrorToast } from "@/shared/helpers/error-handler";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export default function useUploadImage() {
   const { mutate } = useMutation({
     mutationFn: (images: FileList[]) => uploadImageApi.uploadImage(images),
-    onSuccess: (data) => {},
+    onSuccess: () => toast.success("Imagenes subidas correctamente"),
     onError: (error) => handleErrorToast(error),
   });
   return { mutate };
