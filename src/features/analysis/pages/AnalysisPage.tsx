@@ -85,7 +85,7 @@ export default function AnalysisPage() {
 
   // Calcular paginación
   const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
-  
+
   // Ajustar currentPage si excede el totalPages después de filtrar
   const effectiveCurrentPage = useMemo(() => {
     if (currentPage > totalPages && totalPages > 0) {
@@ -448,26 +448,39 @@ export default function AnalysisPage() {
                     {filteredPatients.length > itemsPerPage && (
                       <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
                         <p className="text-sm text-gray-600">
-                          Mostrando {(effectiveCurrentPage - 1) * itemsPerPage + 1} a{" "}
-                          {Math.min(effectiveCurrentPage * itemsPerPage, filteredPatients.length)} de{" "}
-                          {filteredPatients.length} pacientes
+                          Mostrando{" "}
+                          {(effectiveCurrentPage - 1) * itemsPerPage + 1} a{" "}
+                          {Math.min(
+                            effectiveCurrentPage * itemsPerPage,
+                            filteredPatients.length
+                          )}{" "}
+                          de {filteredPatients.length} pacientes
                         </p>
                         <div className="flex items-center gap-2">
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => setCurrentPage(effectiveCurrentPage - 1)}
+                            onClick={() =>
+                              setCurrentPage(effectiveCurrentPage - 1)
+                            }
                             disabled={effectiveCurrentPage === 1}
                             className="h-8"
                           >
                             <ChevronLeft className="h-4 w-4" />
                           </Button>
                           <div className="flex gap-1">
-                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                            {Array.from(
+                              { length: totalPages },
+                              (_, i) => i + 1
+                            ).map((page) => (
                               <Button
                                 key={page}
                                 size="sm"
-                                variant={effectiveCurrentPage === page ? "default" : "outline"}
+                                variant={
+                                  effectiveCurrentPage === page
+                                    ? "default"
+                                    : "outline"
+                                }
                                 onClick={() => setCurrentPage(page)}
                                 className={`h-8 w-8 p-0 ${
                                   effectiveCurrentPage === page
@@ -482,7 +495,9 @@ export default function AnalysisPage() {
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => setCurrentPage(effectiveCurrentPage + 1)}
+                            onClick={() =>
+                              setCurrentPage(effectiveCurrentPage + 1)
+                            }
                             disabled={effectiveCurrentPage === totalPages}
                             className="h-8"
                           >

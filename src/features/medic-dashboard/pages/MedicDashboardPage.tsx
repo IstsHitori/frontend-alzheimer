@@ -5,16 +5,19 @@ import {
   DashboardHeader,
   OverviewTab,
   PatientsTab,
-  ReportsTab,
 } from "../components";
-import { useMedicalDashboard, usePDFGenerators } from "../hooks";
+import { useMedicalDashboard } from "../hooks";
 import {
   useCatalog,
   useGetCatalog,
   usePatientSelection,
 } from "@/features/patient/hooks";
 import useGetPatients from "@/features/patient/hooks/useGetPatients";
-import { NewPatientForm, EditPatientForm, ShowInfoPatient } from "@/features/patient/components";
+import {
+  NewPatientForm,
+  EditPatientForm,
+  ShowInfoPatient,
+} from "@/features/patient/components";
 
 export default function MedicDashboardPage() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -40,13 +43,6 @@ export default function MedicDashboardPage() {
     handlePatientUpdated,
     handleDeselectPatient,
   } = usePatientSelection();
-
-  const {
-    isGeneratingMonthly,
-    isGeneratingComparative,
-    handleGenerateMonthly,
-    handleGenerateComparative,
-  } = usePDFGenerators({ stats: medicalStats });
 
   useEffect(() => {
     if (medicalQuery.isSuccess && medicalQuery.data) {
@@ -118,10 +114,12 @@ export default function MedicDashboardPage() {
   }
 
   if (selectedPatient) {
-    return <ShowInfoPatient
-      patient={selectedPatient}
-      onBack={handleDeselectPatient}
-    />;
+    return (
+      <ShowInfoPatient
+        patient={selectedPatient}
+        onBack={handleDeselectPatient}
+      />
+    );
   }
 
   if (!medicalStats) {
@@ -169,12 +167,6 @@ export default function MedicDashboardPage() {
             >
               Análisis
             </TabsTrigger>
-            <TabsTrigger
-              value="reports"
-              className="text-xs sm:text-sm rounded-md px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-100 transition-colors"
-            >
-              Reportes
-            </TabsTrigger>
           </TabsList>
         </div>
 
@@ -196,16 +188,6 @@ export default function MedicDashboardPage() {
         {/* Analytics Tab - Liskov Substitution Principle */}
         <TabsContent value="analytics">
           <AnalyticsTab stats={medicalStats} />
-        </TabsContent>
-
-        {/* Reports Tab - Liskov Substitution Principle */}
-        <TabsContent value="reports">
-          <ReportsTab
-            onGenerateMonthly={handleGenerateMonthly}
-            onGenerateComparative={handleGenerateComparative}
-            isGeneratingMonthly={isGeneratingMonthly}
-            isGeneratingComparative={isGeneratingComparative}
-          />
         </TabsContent>
       </Tabs>
     </div>
