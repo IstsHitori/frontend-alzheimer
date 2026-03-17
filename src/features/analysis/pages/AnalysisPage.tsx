@@ -52,7 +52,7 @@ export default function AnalysisPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [genderFilter, setGenderFilter] = useState<string>("all");
   const [uploadedImages, setUploadedImages] = useState<UploadedImagePreview[]>(
-    []
+    [],
   );
   const [analysisResult, setAnalysisResult] =
     useState<CreateAnalysisRespnse | null>(null);
@@ -178,7 +178,7 @@ export default function AnalysisPage() {
           (img) => ({
             fileUrl: img.secure_url,
             fileName: img.original_filename,
-          })
+          }),
         );
 
         // Obtener token
@@ -266,7 +266,7 @@ export default function AnalysisPage() {
                       </CardTitle>
                       <p className="text-xs text-gray-500 mt-0.5">
                         {new Date(analysisResult.createdAt).toLocaleDateString(
-                          "es-ES"
+                          "es-ES",
                         )}{" "}
                         • {analysisResult.user.name}
                       </p>
@@ -312,7 +312,7 @@ export default function AnalysisPage() {
                     <p className="text-sm text-gray-600">
                       Rol: {analysisResult.user.role} • Fecha:{" "}
                       {new Date(analysisResult.createdAt).toLocaleString(
-                        "es-ES"
+                        "es-ES",
                       )}
                     </p>
                     <p className="text-sm text-gray-600 mt-2">
@@ -452,7 +452,7 @@ export default function AnalysisPage() {
                           {(effectiveCurrentPage - 1) * itemsPerPage + 1} a{" "}
                           {Math.min(
                             effectiveCurrentPage * itemsPerPage,
-                            filteredPatients.length
+                            filteredPatients.length,
                           )}{" "}
                           de {filteredPatients.length} pacientes
                         </p>
@@ -471,7 +471,7 @@ export default function AnalysisPage() {
                           <div className="flex gap-1">
                             {Array.from(
                               { length: totalPages },
-                              (_, i) => i + 1
+                              (_, i) => i + 1,
                             ).map((page) => (
                               <Button
                                 key={page}
@@ -656,8 +656,8 @@ export default function AnalysisPage() {
                           {isUploading
                             ? "Subiendo"
                             : isAnalyzing
-                            ? "Analizando"
-                            : "Esperando"}
+                              ? "Analizando"
+                              : "Esperando"}
                         </Badge>
                       </div>
                     </div>

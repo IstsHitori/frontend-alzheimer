@@ -40,7 +40,7 @@ export function OverviewTab({ stats }: OverviewTabProps) {
           iconClassName="text-primary"
         />
         <StatsCard
-          title="Casos Sanos"
+          title="Casos sin clasificación"
           value={resumeStats.healthyCases?.cases || 0}
           description={`${healthyPercentage.toFixed(1)}% del total`}
           icon={CheckCircle}
@@ -78,7 +78,7 @@ export function OverviewTab({ stats }: OverviewTabProps) {
             {/* Sanos */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">Sanos</span>
+                <span className="text-sm font-medium text-gray-700">Sin clasificación</span>
                 <span className="text-sm font-bold text-gray-900">
                   {resumeStats.distributionDiagnostic?.healthy || 0}
                 </span>

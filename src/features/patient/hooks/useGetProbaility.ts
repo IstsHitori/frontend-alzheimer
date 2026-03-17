@@ -41,7 +41,7 @@ export function useGetProbability(
         borderColor: "border-blue-200",
       },
       {
-        label: "No demente",
+        label: "Sin clasificación",
         value: imgAnalysis.nonDemented,
         severity: 0,
         color: "text-green-700",
