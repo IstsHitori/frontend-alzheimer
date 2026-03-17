@@ -117,6 +117,7 @@ export function NewPatientForm({
                     aria-invalid={fieldState.invalid}
                     placeholder="Daniel Rojas"
                     autoComplete="off"
+                    className=""
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -183,7 +184,7 @@ export function NewPatientForm({
                     </SelectTrigger>
                     <SelectContent position="item-aligned">
                       <SelectGroup>
-                        <SelectLabel className="text-center">
+                        <SelectLabel className="text-cente  r">
                           Generos
                         </SelectLabel>
                         <SelectSeparator />
