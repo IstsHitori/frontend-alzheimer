@@ -2,7 +2,7 @@ import useGetAnalysisByPatientId from "@/features/analysis/hooks/useGetAnalysisB
 import type { Patient } from "../../types";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, Brain } from "lucide-react";
+import { AlertCircle, Brain, ShieldAlert } from "lucide-react";
 import { useState, useMemo } from "react";
 import {
   AnalysisCardPatient,
@@ -92,6 +92,22 @@ export function PatientAnalysisInfo({ patientId }: PatientAnalysisProps) {
 
   return (
     <div className="space-y-6">
+      {/* Disclaimer médico */}
+      <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
+        <ShieldAlert className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+        <div>
+          <p className="text-sm font-semibold text-amber-800">
+            Aviso Importante
+          </p>
+          <p className="text-sm text-amber-700 mt-0.5">
+            Los resultados generados por el modelo de inteligencia artificial
+            son orientativos y deben ser interpretados exclusivamente por un
+            médico especialista. Este análisis no constituye un diagnóstico
+            definitivo y siempre requiere validación clínica profesional.
+          </p>
+        </div>
+      </div>
+
       {paginatedData.map((analysis) => (
         <AnalysisCardPatient
           key={analysis.id}

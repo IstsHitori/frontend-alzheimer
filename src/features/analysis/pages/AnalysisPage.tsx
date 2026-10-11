@@ -14,6 +14,7 @@ import {
   Filter,
   ChevronLeft,
   ChevronRight,
+  ShieldAlert,
 } from "lucide-react";
 import useGetPatients from "@/features/patient/hooks/useGetPatients";
 import type { Patient } from "@/features/patient/types";
@@ -227,7 +228,7 @@ export default function AnalysisPage() {
         {analysisResult ? (
           <div className="space-y-6">
             {/* Header de resultados */}
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-blue-500 rounded">
                   <Brain className="h-8 w-8 text-white" />
@@ -249,6 +250,23 @@ export default function AnalysisPage() {
                 <Brain className="h-5 w-5 mr-2" />
                 Nuevo Análisis
               </Button>
+            </div>
+
+            {/* Disclaimer médico */}
+            <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
+              <ShieldAlert className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="text-sm font-semibold text-amber-800">
+                  Aviso Importante
+                </p>
+                <p className="text-sm text-amber-700 mt-0.5">
+                  Los resultados generados por el modelo de inteligencia
+                  artificial son orientativos y deben ser interpretados
+                  exclusivamente por un médico especialista. Este análisis no
+                  constituye un diagnóstico definitivo y siempre requiere
+                  validación clínica profesional.
+                </p>
+              </div>
             </div>
 
             {/* Card contenedor de resultados - igual que AnalysisCardPatient */}
@@ -338,7 +356,7 @@ export default function AnalysisPage() {
           // Vista de selección y upload (original)
           <>
             {/* Header */}
-            <div className="mb-8">
+            <div className="mb-4">
               <div className="flex items-center gap-3 mb-2">
                 <div className="p-3 bg-blue-500 rounded-xl">
                   <Brain className="h-8 w-8 text-white" />
@@ -353,6 +371,23 @@ export default function AnalysisPage() {
                       : "Selecciona un paciente para comenzar"}
                   </p>
                 </div>
+              </div>
+            </div>
+
+            {/* Disclaimer médico */}
+            <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
+              <ShieldAlert className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="text-sm font-semibold text-amber-800">
+                  Aviso Importante
+                </p>
+                <p className="text-sm text-amber-700 mt-0.5">
+                  Los resultados generados por el modelo de inteligencia
+                  artificial son orientativos y deben ser interpretados
+                  exclusivamente por un médico especialista. Este análisis no
+                  constituye un diagnóstico definitivo y siempre requiere
+                  validación clínica profesional.
+                </p>
               </div>
             </div>
 
